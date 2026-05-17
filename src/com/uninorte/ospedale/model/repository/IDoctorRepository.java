@@ -4,8 +4,8 @@
  */
 package com.uninorte.ospedale.model.repository;
 
-import packagee.Doctor;
-import packagee.Specialty;
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.enums.Specialty;
 
 import java.util.List;
 /**

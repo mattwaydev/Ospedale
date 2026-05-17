@@ -6,7 +6,7 @@ package com.uninorte.ospedale.model.repository;
 
 import java.util.List;
 import java.util.Optional;
-import packagee.User;
+import com.uninorte.ospedale.model.entity.User;
 /**
  *
  * @author Samuel Ramirez

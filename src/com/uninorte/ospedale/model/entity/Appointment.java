@@ -2,8 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package packagee;
+package com.uninorte.ospedale.model.entity;
 
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.entity.Patient;
+import com.uninorte.ospedale.model.enums.Specialty;
+import com.uninorte.ospedale.model.enums.AppointmentStatus;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 

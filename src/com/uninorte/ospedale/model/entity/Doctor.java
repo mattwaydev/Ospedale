@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package packagee;
+package com.uninorte.ospedale.model.entity;
 
+import com.uninorte.ospedale.model.entity.User;
+import com.uninorte.ospedale.model.enums.Specialty;
 import java.util.ArrayList;
 
 /**
@@ -24,6 +26,7 @@ public class Doctor extends User {
         this.specialty = specialty;
         this.licenceNumber = licenceNumber;
         this.assignedOffice = assignedOffice;
+        this.appointments = new ArrayList<>();                
     }
 
     public ArrayList<Appointment> getAppointments() {

@@ -4,8 +4,8 @@
  */
 package com.uninorte.ospedale.model.repository;
 
-import packagee.Hospitalization;
-import packagee.HospitalizationStatus;
+import com.uninorte.ospedale.model.entity.Hospitalization;
+import com.uninorte.ospedale.model.enums.HospitalizationStatus;
 
 import java.util.List;
 import java.util.Optional;

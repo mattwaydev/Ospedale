@@ -4,6 +4,12 @@
  */
 package packagee;
 
+import com.uninorte.ospedale.model.entity.Hospitalization;
+import com.uninorte.ospedale.model.entity.Appointment;
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.entity.Patient;
+import com.uninorte.ospedale.model.entity.Administrator;
+import com.uninorte.ospedale.model.entity.User;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.Color;
 import java.time.LocalDate;

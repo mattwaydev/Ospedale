@@ -4,6 +4,15 @@
  */
 package packagee;
 
+import com.uninorte.ospedale.model.entity.Hospitalization;
+import com.uninorte.ospedale.model.entity.Appointment;
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.entity.Patient;
+import com.uninorte.ospedale.model.entity.Administrator;
+import com.uninorte.ospedale.model.entity.User;
+import com.uninorte.ospedale.model.enums.Specialty;
+import com.uninorte.ospedale.model.enums.RoomType;
+import com.uninorte.ospedale.model.enums.AppointmentStatus;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -885,7 +894,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
         long idDoctor = Long.parseLong(jComboBox2.getItemAt(jComboBox2.getSelectedIndex()));
         Doctor doc = null;
         for(User use: this.users){
-            if (use.id  == idDoctor ){
+            if (use.getId()  == idDoctor ){
                 doc = (Doctor) use;
             }
         }
