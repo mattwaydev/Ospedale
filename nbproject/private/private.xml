@@ -3,10 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/Main.java</file>
             <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/view/navigation/ViewNavigator.java</file>
             <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/view/components/package-info.java</file>
             <file>file:/C:/Users/USER/Documents/Ospedale/README.md</file>
+=======
+            <file>file:/C:/Users/Matt/IdeaProjects/Ospedale/Ospedale/src/packagee/NewJFrame1.java</file>
+            <file>file:/C:/Users/Matt/IdeaProjects/Ospedale/Ospedale/src/packagee/User.java</file>
+>>>>>>> main
         </group>
     </open-files>
 </project-private>
