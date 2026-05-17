@@ -24,17 +24,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panelRound1" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlRoot" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panelRound1" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlRoot" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="packagee.PanelRound" name="panelRound1">
+    <Container class="packagee.PanelRound" name="pnlRoot">
       <Properties>
         <Property name="radius" type="int" value="50"/>
       </Properties>
@@ -42,9 +42,9 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="panelRound2" alignment="0" max="32767" attributes="0"/>
+              <Component id="pnlTopbar" alignment="0" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="jTabbedPane1" min="-2" pref="1028" max="-2" attributes="0"/>
+                  <Component id="tabsLoginRegister" min="-2" pref="1028" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -52,22 +52,22 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="panelRound2" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlTopbar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTabbedPane1" max="32767" attributes="0"/>
+                  <Component id="tabsLoginRegister" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="packagee.PanelRound" name="panelRound2">
+        <Container class="packagee.PanelRound" name="pnlTopbar">
           <Properties>
             <Property name="radius" type="int" value="50"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="panelRound2MouseDragged"/>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelRound2MousePressed"/>
+            <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="pnlTopbarMouseDragged"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlTopbarMousePressed"/>
           </Events>
 
           <Layout>
@@ -75,19 +75,19 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnClose" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButton1" alignment="1" max="32767" attributes="0"/>
+                  <Component id="btnClose" alignment="1" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="btnClose">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -96,22 +96,22 @@
                 <Property name="borderPainted" type="boolean" value="false"/>
                 <Property name="contentAreaFilled" type="boolean" value="false"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor Por defecto"/>
+                  <Color id="Default Cursor"/>
                 </Property>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCloseActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+        <Container class="javax.swing.JTabbedPane" name="tabsLoginRegister">
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
           <SubComponents>
-            <Container class="packagee.PanelRound" name="panelRound3">
+            <Container class="packagee.PanelRound" name="pnlCard">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Login">
@@ -125,7 +125,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace pref="475" max="32767" attributes="0"/>
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblLoginTitle" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="481" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
@@ -135,20 +135,20 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="1" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblLoginPassword" alignment="1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblLoginUsername" alignment="1" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                          <Component id="jTextField2" min="-2" pref="152" max="-2" attributes="0"/>
-                                          <Component id="jTextField1" min="-2" pref="152" max="-2" attributes="0"/>
+                                          <Component id="txtLoginPassword" min="-2" pref="152" max="-2" attributes="0"/>
+                                          <Component id="txtLoginUsername" min="-2" pref="152" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="471" max="-2" attributes="0"/>
-                                  <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnLogin" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -159,24 +159,24 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblLoginTitle" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblLoginUsername" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtLoginUsername" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblLoginPassword" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jTextField2" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtLoginPassword" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnLogin" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="137" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel1">
+                <Component class="javax.swing.JLabel" name="lblLoginTitle">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="24" style="1"/>
@@ -184,17 +184,17 @@
                     <Property name="text" type="java.lang.String" value="LOGIN"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField1">
+                <Component class="javax.swing.JTextField" name="txtLoginUsername">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
                     </Property>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                      <Color id="Cursor Por defecto"/>
+                      <Color id="Default Cursor"/>
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel2">
+                <Component class="javax.swing.JLabel" name="lblLoginUsername">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -202,17 +202,17 @@
                     <Property name="text" type="java.lang.String" value="USERNAME"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField2">
+                <Component class="javax.swing.JTextField" name="txtLoginPassword">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
                     </Property>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                      <Color id="Cursor Por defecto"/>
+                      <Color id="Default Cursor"/>
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel3">
+                <Component class="javax.swing.JLabel" name="lblLoginPassword">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -220,7 +220,7 @@
                     <Property name="text" type="java.lang.String" value="PASSWORD"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton2">
+                <Component class="javax.swing.JButton" name="btnLogin">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -228,7 +228,7 @@
                     <Property name="text" type="java.lang.String" value="ENTER"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLoginActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

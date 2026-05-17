@@ -4,6 +4,7 @@
  */
 package packagee;
 
+import com.uninorte.ospedale.view.LoginView;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -444,7 +445,7 @@ public class NewJFrame11 extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         
-        NewJFrame login = new NewJFrame();
+        LoginView login = new LoginView();
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_jButton10ActionPerformed
