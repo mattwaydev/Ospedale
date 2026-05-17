@@ -13,6 +13,7 @@ import com.uninorte.ospedale.model.entity.User;
 import com.uninorte.ospedale.model.enums.Specialty;
 import com.uninorte.ospedale.model.enums.RoomType;
 import com.uninorte.ospedale.model.enums.AppointmentStatus;
+import com.uninorte.ospedale.view.LoginView;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -823,7 +824,7 @@ public class NewJFrame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        NewJFrame login = new NewJFrame();
+        LoginView login = new LoginView();
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed

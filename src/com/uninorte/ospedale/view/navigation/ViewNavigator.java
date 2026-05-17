@@ -4,24 +4,50 @@
  */
 package com.uninorte.ospedale.view.navigation;
 
-/**
- *
- * @author USER
- */
+import com.uninorte.ospedale.controller.AuthController;
+import com.uninorte.ospedale.model.dto.UserSessionDTO;
+
+
+import packagee.NewJFrame1;
+import packagee.NewJFrame11;
+import packagee.NewJFrame111;
+
+import java.util.ArrayList;
+
 public class ViewNavigator {
-     public void showLogin() {
-        throw new UnsupportedOperationException("Day 2");
+
+    private final AuthController authController;
+
+    public ViewNavigator(AuthController authController) {
+        this.authController = authController;
     }
 
-    public void showAdmin() {
-        throw new UnsupportedOperationException("Day 2");
+    public void showLogin() {
+        new com.uninorte.ospedale.view.LoginView(authController, this).setVisible(true);
     }
 
-    public void showDoctor() {
-        throw new UnsupportedOperationException("Day 2");
+    public void routeAfterLogin(UserSessionDTO session) {
+        switch (session.role()) {
+            case "ADMIN" -> openLegacyAdmin(session);
+            case "PATIENT" -> openLegacyPatient(session);
+            case "DOCTOR" -> openLegacyDoctor(session);
+            default -> throw new IllegalStateException("Rol desconocido: " + session.role());
+        }
     }
 
-    public void showPatient() {
-        throw new UnsupportedOperationException("Day 2");
+    private void openLegacyAdmin(UserSessionDTO s) {
+        new NewJFrame11(null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()).setVisible(true);
+    }
+
+    private void openLegacyPatient(UserSessionDTO s) {
+        new NewJFrame1(null, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()).setVisible(true);
+    }
+
+    private void openLegacyDoctor(UserSessionDTO s) {
+        new NewJFrame111(null, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()).setVisible(true);
+    }
+
+    public void exit() {
+        System.exit(0);
     }
 }
