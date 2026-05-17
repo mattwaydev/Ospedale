@@ -4,6 +4,17 @@
  */
 package packagee;
 
+import com.uninorte.ospedale.model.entity.Prescription;
+import com.uninorte.ospedale.model.entity.Hospitalization;
+import com.uninorte.ospedale.model.entity.Appointment;
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.entity.Patient;
+import com.uninorte.ospedale.model.entity.Administrator;
+import com.uninorte.ospedale.model.entity.User;
+import com.uninorte.ospedale.model.enums.Specialty;
+import com.uninorte.ospedale.model.enums.RoomType;
+import com.uninorte.ospedale.model.enums.HospitalizationStatus;
+import com.uninorte.ospedale.model.enums.AppointmentStatus;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalTime;

@@ -2,8 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package packagee;
+package com.uninorte.ospedale.model.entity;
 
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.entity.Patient;
+import com.uninorte.ospedale.model.enums.RoomType;
+import com.uninorte.ospedale.model.enums.HospitalizationStatus;
 import java.time.LocalDate;
 
 /**
@@ -32,9 +36,7 @@ public class Hospitalization {
     public Hospitalization(String id, Patient patient, Doctor doctor, LocalDate date, String reason, RoomType roomType, String observations) {
         this.id = id;
         this.patient = patient;
-        patient.setHospitalization(this);
         this.doctor = doctor;
-        doctor.addHospitalization(this);
         this.date = date;
         this.reason = reason;
         this.roomType = roomType;
@@ -44,9 +46,7 @@ public class Hospitalization {
     public Hospitalization(String id, Patient patient, Doctor doctor, LocalDate date, String reason, RoomType roomType, String observations, HospitalizationStatus hopsS) {
         this.id = id;
         this.patient = patient;
-        patient.setHospitalization(this);
         this.doctor = doctor;
-        doctor.addHospitalization(this);
         this.date = date;
         this.reason = reason;
         this.roomType = roomType;

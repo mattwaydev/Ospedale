@@ -8,8 +8,8 @@ package com.uninorte.ospedale.model.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import packagee.Appointment;
-import packagee.AppointmentStatus;
+import com.uninorte.ospedale.model.entity.Appointment;
+import com.uninorte.ospedale.model.enums.AppointmentStatus;
 /**
  *
  * @author Samuel Ramirez

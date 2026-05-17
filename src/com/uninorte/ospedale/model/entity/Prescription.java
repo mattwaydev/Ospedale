@@ -2,7 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package packagee;
+package com.uninorte.ospedale.model.entity;
+
+import com.uninorte.ospedale.model.entity.Appointment;
 
 /**
  *
@@ -19,7 +21,6 @@ public class Prescription {
 
     public Prescription(Appointment appointment, String medicationName, double dose, String administrationRoute, int treatmentDuration, String additionalInstructions, int frecuency) {
         this.appointment = appointment;
-        appointment.addPrescription(this);
         this.medicationName = medicationName;
         this.dose = dose;
         this.administrationRoute = administrationRoute;
