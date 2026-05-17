@@ -10,7 +10,8 @@ import com.uninorte.ospedale.model.repository.IPatientRepository;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
-import packagee.Patient;
+import com.uninorte.ospedale.model.entity.Patient;
+import com.uninorte.ospedale.model.entity.User;
 
 /**
  *
@@ -58,7 +59,7 @@ public class PatientController {
             String password, String confirmPassword, String email,
             String birthdate, boolean gender, String phone, String address) {
 
-        Optional<packagee.User> found = patientRepository.findById(id);
+        Optional<User> found = patientRepository.findById(id);
         if (found.isEmpty())
             return ResponseFactory.notFound("Patient not found");
         if (!password.equals(confirmPassword))

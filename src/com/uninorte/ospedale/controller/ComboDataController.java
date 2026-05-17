@@ -9,9 +9,9 @@ import com.uninorte.ospedale.controller.response.ResponseFactory;
 import com.uninorte.ospedale.model.repository.IDoctorRepository;
 import java.util.ArrayList;
 import java.util.List;
-import packagee.Doctor;
-import packagee.RoomType;
-import packagee.Specialty;
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.enums.RoomType;
+import com.uninorte.ospedale.model.enums.Specialty;
 /**
  *
  * @author Matt

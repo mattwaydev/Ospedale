@@ -13,13 +13,14 @@ import com.uninorte.ospedale.model.repository.IPatientRepository;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
-import packagee.Appointment;
-import packagee.AppointmentStatus;
-import packagee.Doctor;
-import packagee.Hospitalization;
-import packagee.HospitalizationStatus;
-import packagee.Patient;
-import packagee.RoomType;
+import com.uninorte.ospedale.model.entity.Appointment;
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.entity.Hospitalization;
+import com.uninorte.ospedale.model.entity.Patient;
+import com.uninorte.ospedale.model.enums.AppointmentStatus;
+import com.uninorte.ospedale.model.enums.HospitalizationStatus;
+import com.uninorte.ospedale.model.enums.RoomType;
+import com.uninorte.ospedale.model.entity.User;
 
 /**
  *
@@ -45,11 +46,11 @@ public class HospitalizationController {
     public Response<Object> request(long patientId, long doctorId, String date,
             String reason, String roomType, String observations) {
 
-        Optional<packagee.User> patientFound = patientRepository.findById(patientId);
+        Optional<User> patientFound = patientRepository.findById(patientId);
         if (patientFound.isEmpty())
             return ResponseFactory.notFound("Patient not found");
 
-        Optional<packagee.User> doctorFound = doctorRepository.findById(doctorId);
+        Optional<User> doctorFound = doctorRepository.findById(doctorId);
         if (doctorFound.isEmpty())
             return ResponseFactory.notFound("Doctor not found");
 

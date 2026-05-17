@@ -9,10 +9,10 @@ import com.uninorte.ospedale.controller.response.ResponseFactory;
 import com.uninorte.ospedale.controller.validator.UserValidator;
 import com.uninorte.ospedale.model.dto.UserSessionDTO;
 import com.uninorte.ospedale.model.enums.Role;
-import packagee.Administrator;
-import packagee.Doctor;
-import packagee.Patient;
-import packagee.User;
+import com.uninorte.ospedale.model.entity.Administrator;
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.entity.Patient;
+import com.uninorte.ospedale.model.entity.User;
 import com.uninorte.ospedale.model.repository.IUserRepository;
 import java.util.Optional;
 

@@ -8,9 +8,9 @@ import com.uninorte.ospedale.controller.response.Response;
 import com.uninorte.ospedale.controller.response.ResponseFactory;
 import com.uninorte.ospedale.model.repository.IDoctorRepository;
 import java.util.Optional;
-import packagee.Doctor;
-import packagee.Specialty;
-
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.entity.User;
+import com.uninorte.ospedale.model.enums.Specialty;
 
 /**
  *
@@ -57,7 +57,7 @@ public class DoctorController {
             String password, String confirmPassword, String licenceNumber,
             String assignedOffice, String specialty) {
 
-        Optional<packagee.User> found = doctorRepository.findById(id);
+        Optional<User> found = doctorRepository.findById(id);
         if (found.isEmpty())
             return ResponseFactory.notFound("Doctor not found");
         if (!password.equals(confirmPassword))

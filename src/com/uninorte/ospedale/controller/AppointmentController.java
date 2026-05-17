@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
-import packagee.Appointment;
-import packagee.AppointmentStatus;
-import packagee.Doctor;
-import packagee.Patient;
-import packagee.Prescription;
-import packagee.Specialty;
-
+import com.uninorte.ospedale.model.entity.Appointment;
+import com.uninorte.ospedale.model.enums.AppointmentStatus;
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.entity.Patient;
+import com.uninorte.ospedale.model.entity.Prescription;
+import com.uninorte.ospedale.model.enums.Specialty;
+import com.uninorte.ospedale.model.entity.User;
 /**
  *
  * @author Matt
@@ -41,7 +41,7 @@ public class AppointmentController {
     public Response<Object> request(long patientId, String date, String time,
             String reason, boolean type, String specialtyOrDoctorId, boolean byDoctor) {
 
-        Optional<packagee.User> patientFound = patientRepository.findById(patientId);
+        Optional<User> patientFound = patientRepository.findById(patientId);
         if (patientFound.isEmpty())
             return ResponseFactory.notFound("Patient not found");
 
@@ -64,7 +64,7 @@ public class AppointmentController {
 
         if (byDoctor) {
             long doctorId = Long.parseLong(specialtyOrDoctorId);
-            Optional<packagee.User> doctorFound = doctorRepository.findById(doctorId);
+            Optional<User> doctorFound = doctorRepository.findById(doctorId);
             if (doctorFound.isEmpty())
                 return ResponseFactory.notFound("Doctor not found");
             doctor = (Doctor) doctorFound.get();

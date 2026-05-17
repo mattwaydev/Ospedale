@@ -12,10 +12,10 @@ import com.uninorte.ospedale.model.repository.IDoctorRepository;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import packagee.Appointment;
-import packagee.AppointmentStatus;
-import packagee.Doctor;
-import packagee.Patient;
+import com.uninorte.ospedale.model.entity.Appointment;
+import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.entity.Patient;
+import com.uninorte.ospedale.model.enums.AppointmentStatus;
 
 
 /**
