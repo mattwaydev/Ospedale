@@ -10,9 +10,9 @@ package com.uninorte.ospedale.controller.response;
  */
 public final class Response<T> {
     
-    private final int code;
-    private final String message;
-    private final T data;
+    public final int code;
+    public final String message;
+    public final T data;
     
     public Response(int code, String message, T data) {
         this.code = code;

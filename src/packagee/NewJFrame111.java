@@ -21,6 +21,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import com.uninorte.ospedale.controller.AuthController;
+import com.uninorte.ospedale.view.navigation.ViewNavigator;
 
 /**
  *
@@ -36,13 +38,17 @@ public class NewJFrame111 extends javax.swing.JFrame {
     private ArrayList<Appointment>appointments;
     private Doctor doctor;
     private Patient patient;
-    public NewJFrame111(User user,Doctor doc, ArrayList<User> users,ArrayList<Hospitalization> hospitalizations,ArrayList<Appointment> appointments) {
+    private AuthController authController;
+    private ViewNavigator navigator;
+    public NewJFrame111(User user,Doctor doc, ArrayList<User> users,ArrayList<Hospitalization> hospitalizations,ArrayList<Appointment> appointments, AuthController authController, ViewNavigator navigator) {
         initComponents();
         this.user = user;
         this.users =users;
         this.doctor = doc;
         this.hospitalizations = hospitalizations;
         this.appointments = appointments;
+        this.authController = authController;  
+        this.navigator = navigator;           
         if (user instanceof Administrator)
             jButton11.setVisible(true);
         else    
@@ -1167,13 +1173,13 @@ public class NewJFrame111 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        LoginView login = new LoginView();
+        LoginView login = new LoginView(authController, navigator);
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        NewJFrame11 admin = new NewJFrame11(user,users,hospitalizations, appointments);
+        NewJFrame11 admin = new NewJFrame11(user, users, hospitalizations, appointments, authController, navigator);
         this.setVisible(false);
         admin.setVisible(true);
     }//GEN-LAST:event_jButton11ActionPerformed

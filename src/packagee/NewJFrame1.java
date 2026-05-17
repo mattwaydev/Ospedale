@@ -4,6 +4,7 @@
  */
 package packagee;
 
+import com.uninorte.ospedale.controller.AuthController;
 import com.uninorte.ospedale.model.entity.Hospitalization;
 import com.uninorte.ospedale.model.entity.Appointment;
 import com.uninorte.ospedale.model.entity.Doctor;
@@ -14,6 +15,7 @@ import com.uninorte.ospedale.model.enums.Specialty;
 import com.uninorte.ospedale.model.enums.RoomType;
 import com.uninorte.ospedale.model.enums.AppointmentStatus;
 import com.uninorte.ospedale.view.LoginView;
+import com.uninorte.ospedale.view.navigation.ViewNavigator;
 import java.awt.Color;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,14 +36,18 @@ public class NewJFrame1 extends javax.swing.JFrame {
     private Patient patient;
     private ArrayList<Appointment> appointments;
     private ArrayList<Hospitalization> hospitalizations;
+    private AuthController authController;
+    private ViewNavigator navigator;
 
-    public NewJFrame1(User user,Patient patient, ArrayList<User> users, ArrayList<Appointment>appointments, ArrayList<Hospitalization> hospitalizations) {
+    public NewJFrame1(User user,Patient patient, ArrayList<User> users, ArrayList<Appointment>appointments, ArrayList<Hospitalization> hospitalizations, AuthController authController, ViewNavigator navigator) {
         initComponents();
         this.user = user;
         this.users = users;
         this.patient = patient;
         this.hospitalizations = hospitalizations;
         this.appointments = appointments;
+        this.authController = authController;
+        this.navigator = navigator;
         if (user instanceof Administrator) {
             jButton7.setVisible(true);
         } else {
@@ -824,13 +830,13 @@ public class NewJFrame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        LoginView login = new LoginView();
+        LoginView login = new LoginView(authController , navigator);
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        NewJFrame11 admin = new NewJFrame11(user, users,hospitalizations, appointments);
+        NewJFrame11 admin = new NewJFrame11(user, users, hospitalizations, appointments, authController, navigator);
         this.setVisible(false);
         admin.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed

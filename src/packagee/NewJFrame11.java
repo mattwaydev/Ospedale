@@ -11,6 +11,8 @@ import com.uninorte.ospedale.model.entity.Patient;
 import com.uninorte.ospedale.model.entity.User;
 import com.uninorte.ospedale.model.enums.Specialty;
 import com.uninorte.ospedale.view.LoginView;
+import com.uninorte.ospedale.controller.AuthController;
+import com.uninorte.ospedale.view.navigation.ViewNavigator;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -26,7 +28,9 @@ public class NewJFrame11 extends javax.swing.JFrame {
     private ArrayList<Appointment>appointments;
     private ArrayList<Hospitalization>hospitalizations;
     private User user;
-    public NewJFrame11(User user, ArrayList<User>users,ArrayList<Hospitalization> hospitalizations, ArrayList<Appointment> appointments) {
+    private AuthController authController;
+    private ViewNavigator navigator;
+    public NewJFrame11(User user, ArrayList<User>users,ArrayList<Hospitalization> hospitalizations, ArrayList<Appointment> appointments, AuthController authController, ViewNavigator navigator) {
         initComponents();
         this.user = user;
         this.users = users;
@@ -34,6 +38,8 @@ public class NewJFrame11 extends javax.swing.JFrame {
         this.appointments = appointments;
         this.setBackground(new Color(0, 0, 0, 0));
         this.setLocationRelativeTo(null);
+        this.authController = authController;  
+        this.navigator = navigator;            
     }
 
     /**
@@ -444,14 +450,14 @@ public class NewJFrame11 extends javax.swing.JFrame {
             if(use.getId() == idDoctor)
                 temp =(Doctor) user;
         }
-        NewJFrame111 doctor = new NewJFrame111(user,temp, users, hospitalizations,appointments);
+        NewJFrame111 doctor = new NewJFrame111(user, temp, users, hospitalizations, appointments, authController, navigator);
         this.setVisible(false);
         doctor.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         
-        LoginView login = new LoginView();
+        LoginView login = new LoginView(authController, navigator);
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_jButton10ActionPerformed
@@ -463,7 +469,7 @@ public class NewJFrame11 extends javax.swing.JFrame {
             if(use.getId() == idPatient)
                 temp =(Patient) user;
         }
-        NewJFrame1 patient = new NewJFrame1(user,temp,users,appointments,hospitalizations);
+        NewJFrame1 patient = new NewJFrame1(user, temp, users, appointments, hospitalizations, authController, navigator);
         this.setVisible(false);
         patient.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed

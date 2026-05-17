@@ -28,23 +28,24 @@ public class ViewNavigator {
 
     public void routeAfterLogin(UserSessionDTO session) {
         switch (session.role()) {
-            case "ADMIN" -> openLegacyAdmin(session);
-            case "PATIENT" -> openLegacyPatient(session);
-            case "DOCTOR" -> openLegacyDoctor(session);
+            case ADMIN -> openLegacyAdmin(session);
+            case PATIENT -> openLegacyPatient(session);
+            case DOCTOR -> openLegacyDoctor(session);
             default -> throw new IllegalStateException("Rol desconocido: " + session.role());
         }
     }
 
     private void openLegacyAdmin(UserSessionDTO s) {
-        new NewJFrame11(null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()).setVisible(true);
+        new NewJFrame11(null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), authController, this).setVisible(true);
     }
 
     private void openLegacyPatient(UserSessionDTO s) {
-        new NewJFrame1(null, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()).setVisible(true);
+        new NewJFrame1(null, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), authController, this).setVisible(true);
+
     }
 
     private void openLegacyDoctor(UserSessionDTO s) {
-        new NewJFrame111(null, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()).setVisible(true);
+        new NewJFrame111(null, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), authController, this).setVisible(true);
     }
 
     public void exit() {
