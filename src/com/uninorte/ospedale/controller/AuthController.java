@@ -3,8 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.uninorte.ospedale.controller;
+
 import com.uninorte.ospedale.controller.response.Response;
 import com.uninorte.ospedale.controller.response.ResponseFactory;
+import com.uninorte.ospedale.model.repository.IUserRepository;
+import java.util.Optional;
+import packagee.User;
 
 /**
  *
@@ -12,10 +16,28 @@ import com.uninorte.ospedale.controller.response.ResponseFactory;
  */
 public class AuthController {
     
-    public Response<String> login(String username, String password){
-        return ResponseFactory.serverError("not implemented");
+     private final IUserRepository userRepository;
+
+    public AuthController(IUserRepository userRepository) {
+        this.userRepository = userRepository;
     }
-    
+
+    public Response<Object> login(String username, String password) {
+        if (username == null || username.isBlank() || password == null || password.isBlank()) {
+            return ResponseFactory.badRequest("Username and password are required");
+        }
+        Optional<User> found = userRepository.findByUsername(username);
+        if (found.isEmpty()) {
+            return ResponseFactory.notFound("User not found");
+        }
+        User user = found.get();
+        if (!user.getPassword().equals(password)) {
+            return ResponseFactory.unauthorized("Invalid password");
+        }
+        return ResponseFactory.ok("Login successful", user.getClass().getSimpleName() + ":" + user.getId());
+    }
 }
 
-    
+
+
+

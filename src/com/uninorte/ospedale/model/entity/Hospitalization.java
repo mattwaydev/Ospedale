@@ -32,6 +32,10 @@ public class Hospitalization {
     public void setStatus(HospitalizationStatus status) {
         this.status = status;
     }
+    
+    public HospitalizationStatus getStatus(){
+        return status;
+    }
 
     public Hospitalization(String id, Patient patient, Doctor doctor, LocalDate date, String reason, RoomType roomType, String observations) {
         this.id = id;

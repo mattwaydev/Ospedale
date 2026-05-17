@@ -82,6 +82,14 @@ public class Appointment {
     public LocalDateTime getDatetime() {
         return datetime;
     }
+    
+    public void setDatetime(LocalDateTime datetime){
+        this.datetime = datetime;
+    }
+    
+    public String getReason() {
+        return reason;
+    }
 
     public boolean isType() {
         return type;
