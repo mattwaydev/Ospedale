@@ -6,9 +6,16 @@ package com.uninorte.ospedale.controller;
 
 import com.uninorte.ospedale.controller.response.Response;
 import com.uninorte.ospedale.controller.response.ResponseFactory;
+import com.uninorte.ospedale.controller.validator.UserValidator;
+import com.uninorte.ospedale.model.dto.UserSessionDTO;
+import com.uninorte.ospedale.model.enums.Role;
+import packagee.Administrator;
+import packagee.Doctor;
+import packagee.Patient;
+import packagee.User;
 import com.uninorte.ospedale.model.repository.IUserRepository;
 import java.util.Optional;
-import packagee.User;
+
 
 /**
  *
@@ -22,22 +29,54 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
-    public Response<Object> login(String username, String password) {
-        if (username == null || username.isBlank() || password == null || password.isBlank()) {
-            return ResponseFactory.badRequest("Username and password are required");
-        }
-        Optional<User> found = userRepository.findByUsername(username);
-        if (found.isEmpty()) {
-            return ResponseFactory.notFound("User not found");
-        }
-        User user = found.get();
-        if (!user.getPassword().equals(password)) {
-            return ResponseFactory.unauthorized("Invalid password");
-        }
-        return ResponseFactory.ok("Login successful", user.getClass().getSimpleName() + ":" + user.getId());
+    public Response<UserSessionDTO> login(String username, String password) {
+
+        // 1. Validar formato de inputs
+        Optional<String> usernameError = UserValidator.validateUsername(username);
+        if (usernameError.isPresent())
+            return ResponseFactory.badRequest(usernameError.get());
+
+        Optional<String> passwordError = UserValidator.validatePassword(password);
+        if (passwordError.isPresent())
+            return ResponseFactory.badRequest(passwordError.get());
+
+        // 2. Buscar usuario por username
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        if (userOpt.isEmpty())
+            return ResponseFactory.notFound("Usuario no encontrado");
+
+        User user = userOpt.get();
+
+        // 3. Validar contraseña
+        if (!user.getPassword().equals(password))
+            return ResponseFactory.unauthorized("Credenciales inválidas");
+
+        // 4. Construir DTO con rol — único instanceof permitido en toda la app
+        UserSessionDTO session = buildSession(user);
+
+        return ResponseFactory.ok("Bienvenido " + user.getFirstname(), session);
     }
+
+    // Único lugar donde se usa instanceof — resuelve el rol y encap    sula aquí
+    private UserSessionDTO buildSession(User user) {
+    Role role;
+    if (user instanceof Administrator) {
+        role = Role.ADMIN;
+    } else if (user instanceof Patient) {
+        role = Role.PATIENT;
+    } else if (user instanceof Doctor) {
+        role = Role.DOCTOR;
+    } else {
+        role = Role.ADMIN;
+    }
+    return new UserSessionDTO(
+        user.getId(),
+        user.getUsername(),
+        user.getFirstname(),
+        user.getLastname(),
+        role
+    );
+    
+    }
+    
 }
-
-
-
-

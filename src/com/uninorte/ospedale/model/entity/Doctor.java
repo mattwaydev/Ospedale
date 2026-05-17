@@ -52,4 +52,18 @@ public class Doctor extends User {
     public void setAssignedOffice(String assignedOffice) {
         this.assignedOffice = assignedOffice;
     }
+
+    public String getLicenceNumber() {
+        return licenceNumber;
+    }
+
+    public String getAssignedOffice() {
+        return assignedOffice;
+    }
+
+    public ArrayList<Hospitalization> getHospitalizations() {
+        return hospitalizations;
+    }
+    
+    
 }
