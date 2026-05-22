@@ -4,6 +4,7 @@
  */
 package packagee;
 
+import com.uninorte.ospedale.view.AdminView;
 import com.uninorte.ospedale.model.entity.Prescription;
 import com.uninorte.ospedale.model.entity.Hospitalization;
 import com.uninorte.ospedale.model.entity.Appointment;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import com.uninorte.ospedale.controller.AuthController;
 import com.uninorte.ospedale.view.navigation.ViewNavigator;
+import com.uninorte.ospedale.controller.PatientController;
+
 
 /**
  *
@@ -40,8 +43,10 @@ public class NewJFrame111 extends javax.swing.JFrame {
     private Patient patient;
     private AuthController authController;
     private ViewNavigator navigator;
-    public NewJFrame111(User user,Doctor doc, ArrayList<User> users,ArrayList<Hospitalization> hospitalizations,ArrayList<Appointment> appointments, AuthController authController, ViewNavigator navigator) {
+    private PatientController patientController;
+    public NewJFrame111(User user,Doctor doc, ArrayList<User> users,ArrayList<Hospitalization> hospitalizations,ArrayList<Appointment> appointments, AuthController authController, ViewNavigator navigator, PatientController patientController) {
         initComponents();
+        this.patientController = patientController;
         this.user = user;
         this.users =users;
         this.doctor = doc;
@@ -1173,15 +1178,15 @@ public class NewJFrame111 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        LoginView login = new LoginView(authController, navigator);
+LoginView login = new LoginView(authController, patientController, navigator);
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        NewJFrame11 admin = new NewJFrame11(user, users, hospitalizations, appointments, authController, navigator);
-        this.setVisible(false);
-        admin.setVisible(true);
+    this.dispose();
+    navigator.back();      
+    this.setVisible(false);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed

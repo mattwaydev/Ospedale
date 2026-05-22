@@ -4,6 +4,7 @@
  */
 package packagee;
 
+import com.uninorte.ospedale.view.AdminView;
 import com.uninorte.ospedale.controller.AuthController;
 import com.uninorte.ospedale.model.entity.Hospitalization;
 import com.uninorte.ospedale.model.entity.Appointment;
@@ -22,6 +23,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import com.uninorte.ospedale.controller.PatientController;
+
 
 /**
  *
@@ -38,9 +41,10 @@ public class NewJFrame1 extends javax.swing.JFrame {
     private ArrayList<Hospitalization> hospitalizations;
     private AuthController authController;
     private ViewNavigator navigator;
-
-    public NewJFrame1(User user,Patient patient, ArrayList<User> users, ArrayList<Appointment>appointments, ArrayList<Hospitalization> hospitalizations, AuthController authController, ViewNavigator navigator) {
+    private PatientController patientController;
+    public NewJFrame1(User user,Patient patient, ArrayList<User> users, ArrayList<Appointment>appointments, ArrayList<Hospitalization> hospitalizations, AuthController authController, ViewNavigator navigator, PatientController patientController) {
         initComponents();
+        this.patientController = patientController;
         this.user = user;
         this.users = users;
         this.patient = patient;
@@ -830,15 +834,15 @@ public class NewJFrame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        LoginView login = new LoginView(authController , navigator);
+LoginView login = new LoginView(authController, patientController, navigator);
         this.setVisible(false);
         login.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        NewJFrame11 admin = new NewJFrame11(user, users, hospitalizations, appointments, authController, navigator);
-        this.setVisible(false);
-        admin.setVisible(true);
+    this.dispose();
+    navigator.back();
+    this.setVisible(false);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed

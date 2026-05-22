@@ -2,6 +2,22 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/Main.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/packagee/NewJFrame1.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/view/LoginView.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/view/navigation/ViewNavigator.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/packagee/NewJFrame111.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/controller/AppointmentController.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/controller/AuthController.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/controller/ComboDataController.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/controller/DoctorController.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/controller/HospitalizationController.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/controller/PatientController.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/controller/package-info.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/controller/TableDataController.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/packagee/PanelRound.java</file>
+            <file>file:/C:/Users/USER/Documents/Ospedale/src/com/uninorte/ospedale/view/AdminView.java</file>
+        </group>
     </open-files>
 </project-private>

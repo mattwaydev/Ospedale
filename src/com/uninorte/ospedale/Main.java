@@ -4,6 +4,16 @@
  */
 package com.uninorte.ospedale;
 
+import com.uninorte.ospedale.controller.PatientController;
+import com.uninorte.ospedale.controller.DoctorController;
+import com.uninorte.ospedale.controller.AppointmentController;
+import com.uninorte.ospedale.controller.HospitalizationController;
+import com.uninorte.ospedale.controller.TableDataController;
+import com.uninorte.ospedale.controller.ComboDataController;
+import com.uninorte.ospedale.model.repository.IAppointmentRepository;
+import com.uninorte.ospedale.model.repository.IHospitalizationRepository;
+import com.uninorte.ospedale.model.storage.InMemoryAppointmentRepository;
+import com.uninorte.ospedale.model.storage.InMemoryHospitalizationRepository;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.uninorte.ospedale.controller.AuthController;
 import com.uninorte.ospedale.model.loader.JsonUserLoader;
@@ -29,6 +39,8 @@ public class Main {
         IUserRepository userRepo = new InMemoryUserRepository();
         IPatientRepository patientRepo = new InMemoryPatientRepository(userRepo);
         IDoctorRepository doctorRepo = new InMemoryDoctorRepository(userRepo);
+        IAppointmentRepository apptRepo = new InMemoryAppointmentRepository();
+IHospitalizationRepository hospRepo = new InMemoryHospitalizationRepository();
 
         try {
             new JsonUserLoader().load(userRepo, "json/users.json");
@@ -38,9 +50,22 @@ public class Main {
         }
 
         AuthController authController = new AuthController(userRepo);
+        PatientController patientController = new PatientController(patientRepo);
+DoctorController doctorController = new DoctorController(doctorRepo);
+AppointmentController appointmentController = new AppointmentController(apptRepo, patientRepo, doctorRepo);
+HospitalizationController hospitalizationController = new HospitalizationController(hospRepo, patientRepo, doctorRepo, apptRepo);
+TableDataController tableController = new TableDataController(apptRepo, patientRepo, doctorRepo);
+ComboDataController comboController = new ComboDataController(doctorRepo);
 
-        ViewNavigator navigator = new ViewNavigator(authController);
-
+ViewNavigator navigator = new ViewNavigator(
+    authController,
+    patientController,
+    doctorController,
+    appointmentController,
+    hospitalizationController,
+    tableController,
+    comboController
+);
         EventQueue.invokeLater(() -> navigator.showLogin());
     }
 }
