@@ -41,6 +41,10 @@ public class Doctor extends User {
         return hospitalizations.add(hosp);
     }
 
+    public void addAppointment(Appointment a) {
+        this.appointments.add(a);
+    }
+
     public void setSpecialty(Specialty specialty) {
         this.specialty = specialty;
     }

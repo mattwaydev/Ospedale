@@ -37,6 +37,14 @@ public class Hospitalization {
         return status;
     }
 
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
     public Hospitalization(String id, Patient patient, Doctor doctor, LocalDate date, String reason, RoomType roomType, String observations) {
         this.id = id;
         this.patient = patient;
