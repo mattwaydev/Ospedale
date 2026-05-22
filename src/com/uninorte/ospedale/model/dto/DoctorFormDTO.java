@@ -17,5 +17,5 @@ public record DoctorFormDTO(
         String passwordConfirm,
         String specialty,
         String licenceNumber,
-        String asignedOffice
+        String assignedOffice
 ) {}

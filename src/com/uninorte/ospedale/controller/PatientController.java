@@ -6,74 +6,121 @@ package com.uninorte.ospedale.controller;
 
 import com.uninorte.ospedale.controller.response.Response;
 import com.uninorte.ospedale.controller.response.ResponseFactory;
+import com.uninorte.ospedale.controller.validator.UserValidator;
+import com.uninorte.ospedale.model.dto.PatientFormDTO;
+import com.uninorte.ospedale.model.entity.Patient;
+import com.uninorte.ospedale.model.entity.User;
 import com.uninorte.ospedale.model.repository.IPatientRepository;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
-import com.uninorte.ospedale.model.entity.Patient;
-import com.uninorte.ospedale.model.entity.User;
-
 /**
  *
  * @author Matt
  */
 public class PatientController {
-    
+
     private final IPatientRepository patientRepository;
 
     public PatientController(IPatientRepository patientRepository) {
         this.patientRepository = patientRepository;
     }
 
-    public Response<Object> register(long id, String username, String firstname, String lastname,
+    // Overload que recibe DTO — usado por las vistas nuevas
+    public Response<?> register(PatientFormDTO dto) {
+        Optional<String> idError = UserValidator.validateId(dto.id());
+        if (idError.isPresent())
+            return ResponseFactory.badRequest(idError.get());
+
+        boolean gender;
+        if (dto.gender().equals("Male")) {
+            gender = true;
+        } else if (dto.gender().equals("Female")) {
+            gender = false;
+        } else {
+            return ResponseFactory.badRequest("Seleccione un género");
+        }
+
+        long id = Long.parseLong(dto.id());
+        return doRegister(id, dto.username(), dto.firstname(), dto.lastname(),
+                dto.password(), dto.passwordConfirm(), dto.email(),
+                dto.birthdate(), gender, dto.phone(), dto.address());
+    }
+
+    // Overload que recibe DTO — usado por las vistas nuevas
+    public Response<?> update(long id, PatientFormDTO dto) {
+        boolean gender;
+        if (dto.gender().equals("Male")) {
+            gender = true;
+        } else if (dto.gender().equals("Female")) {
+            gender = false;
+        } else {
+            return ResponseFactory.badRequest("Seleccione un género");
+        }
+
+        return doUpdate(id, dto.username(), dto.firstname(), dto.lastname(),
+                dto.password(), dto.passwordConfirm(), dto.email(),
+                dto.birthdate(), gender, dto.phone(), dto.address());
+    }
+
+    // Método privado con la lógica real de registro
+    private Response<?> doRegister(long id, String username, String firstname, String lastname,
             String password, String confirmPassword, String email,
             String birthdate, boolean gender, String phone, String address) {
 
-        if (id <= 0 || String.valueOf(id).length() != 12)
-            return ResponseFactory.badRequest("ID must be 12 digits and greater than 0");
+        Optional<String> usernameError = UserValidator.validateUsername(username);
+        if (usernameError.isPresent()) return ResponseFactory.badRequest(usernameError.get());
+
+        Optional<String> passwordError = UserValidator.validatePasswordMatch(password, confirmPassword);
+        if (passwordError.isPresent()) return ResponseFactory.badRequest(passwordError.get());
+
+        Optional<String> phoneError = UserValidator.validatePhone(phone);
+        if (phoneError.isPresent()) return ResponseFactory.badRequest(phoneError.get());
+
+        Optional<String> emailError = UserValidator.validateEmail(email);
+        if (emailError.isPresent()) return ResponseFactory.badRequest(emailError.get());
+
         if (patientRepository.existsById(id))
-            return ResponseFactory.conflict("ID already exists");
+            return ResponseFactory.conflict("El ID ya existe");
         if (patientRepository.existsByUsername(username))
-            return ResponseFactory.conflict("Username already exists");
-        if (!password.equals(confirmPassword))
-            return ResponseFactory.badRequest("Passwords do not match");
-        if (String.valueOf(phone).length() != 10)
-            return ResponseFactory.badRequest("Phone must have exactly 10 digits");
-        if (!email.matches("^[\\w.]+@[\\w.]+\\.com$"))
-            return ResponseFactory.badRequest("Invalid email format");
+            return ResponseFactory.conflict("El nombre de usuario ya existe");
 
         LocalDate birth;
         try {
             birth = LocalDate.parse(birthdate);
         } catch (DateTimeParseException e) {
-            return ResponseFactory.badRequest("Invalid birthdate format, use YYYY-MM-DD");
+            return ResponseFactory.badRequest("Fecha inválida, use AAAA-MM-DD");
         }
 
         Patient patient = new Patient(id, username, firstname, lastname, password,
                 email, birth, gender, Long.parseLong(phone), address);
         patientRepository.save(patient);
-        return ResponseFactory.ok("Patient registered successfully", null);
+        return ResponseFactory.ok("Paciente registrado exitosamente", null);
     }
 
-    public Response<Object> update(long id, String username, String firstname, String lastname,
+    // Método privado con la lógica real de actualización
+    private Response<?> doUpdate(long id, String username, String firstname, String lastname,
             String password, String confirmPassword, String email,
             String birthdate, boolean gender, String phone, String address) {
 
         Optional<User> found = patientRepository.findById(id);
         if (found.isEmpty())
-            return ResponseFactory.notFound("Patient not found");
-        if (!password.equals(confirmPassword))
-            return ResponseFactory.badRequest("Passwords do not match");
-        if (String.valueOf(phone).length() != 10)
-            return ResponseFactory.badRequest("Phone must have exactly 10 digits");
-        if (!email.matches("^[\\w.]+@[\\w.]+\\.com$"))
-            return ResponseFactory.badRequest("Invalid email format");
+            return ResponseFactory.notFound("Paciente no encontrado");
+
+        Optional<String> passwordError = UserValidator.validatePasswordMatch(password, confirmPassword);
+        if (passwordError.isPresent()) return ResponseFactory.badRequest(passwordError.get());
+
+        Optional<String> phoneError = UserValidator.validatePhone(phone);
+        if (phoneError.isPresent()) return ResponseFactory.badRequest(phoneError.get());
+
+        Optional<String> emailError = UserValidator.validateEmail(email);
+        if (emailError.isPresent()) return ResponseFactory.badRequest(emailError.get());
 
         LocalDate birth;
         try {
             birth = LocalDate.parse(birthdate);
         } catch (DateTimeParseException e) {
-            return ResponseFactory.badRequest("Invalid birthdate format, use YYYY-MM-DD");
+            return ResponseFactory.badRequest("Fecha inválida, use AAAA-MM-DD");
         }
 
         Patient patient = (Patient) found.get();
@@ -86,7 +133,7 @@ public class PatientController {
         patient.setGender(gender);
         patient.setPhone(Long.parseLong(phone));
         patient.setAddress(address);
-        return ResponseFactory.ok("Patient updated successfully", null);
+        return ResponseFactory.ok("Paciente actualizado exitosamente", null);
     }
 }
 
