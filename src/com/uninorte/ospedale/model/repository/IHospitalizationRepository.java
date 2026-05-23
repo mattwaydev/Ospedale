@@ -23,4 +23,6 @@ public interface IHospitalizationRepository {
     void save(Hospitalization h);
     
     void save(Hospitalization h, HospitalizationStatus initialStatus);
+
+    default void seedCounter(long patientId, int lastUsedConsecutive) {}
 }

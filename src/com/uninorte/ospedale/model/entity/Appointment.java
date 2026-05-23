@@ -106,5 +106,9 @@ public class Appointment {
     public boolean addPrescription(Prescription prescrip) {
         return this.prescriptions.add(prescrip);
     }
-    
+
+    public java.util.List<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
 }

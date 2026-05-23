@@ -16,6 +16,8 @@ import com.uninorte.ospedale.model.storage.InMemoryAppointmentRepository;
 import com.uninorte.ospedale.model.storage.InMemoryHospitalizationRepository;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.uninorte.ospedale.controller.AuthController;
+import com.uninorte.ospedale.model.loader.JsonAppointmentLoader;
+import com.uninorte.ospedale.model.loader.JsonHospitalizationLoader;
 import com.uninorte.ospedale.model.loader.JsonUserLoader;
 import com.uninorte.ospedale.model.repository.IDoctorRepository;
 import com.uninorte.ospedale.model.repository.IPatientRepository;
@@ -46,16 +48,17 @@ IHospitalizationRepository hospRepo = new InMemoryHospitalizationRepository();
             new JsonUserLoader().load(userRepo, "json/users.json");
         } catch (Exception ex) {
             System.err.println("No se pudo cargar users.json: " + ex.getMessage());
-
         }
+        new JsonAppointmentLoader().load(apptRepo, userRepo, "json/appointments.json");
+        new JsonHospitalizationLoader().load(hospRepo, userRepo, "json/hospitalizations.json");
 
         AuthController authController = new AuthController(userRepo);
         PatientController patientController = new PatientController(patientRepo);
 DoctorController doctorController = new DoctorController(doctorRepo);
 AppointmentController appointmentController = new AppointmentController(apptRepo, patientRepo, doctorRepo);
 HospitalizationController hospitalizationController = new HospitalizationController(hospRepo, patientRepo, doctorRepo, apptRepo);
-TableDataController tableController = new TableDataController(apptRepo, patientRepo, doctorRepo);
-ComboDataController comboController = new ComboDataController(doctorRepo);
+TableDataController tableController = new TableDataController(apptRepo, patientRepo, doctorRepo, hospRepo);
+ComboDataController comboController = new ComboDataController(doctorRepo, apptRepo);
 
 ViewNavigator navigator = new ViewNavigator(
     authController,

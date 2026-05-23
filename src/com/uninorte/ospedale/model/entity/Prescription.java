@@ -28,7 +28,12 @@ public class Prescription {
         this.additionalInstructions = additionalInstructions;
         this.frecuency = frecuency;
     }
-    
-    
-    
+
+    public String getMedicationName() { return medicationName; }
+    public double getDose() { return dose; }
+    public String getAdministrationRoute() { return administrationRoute; }
+    public int getTreatmentDuration() { return treatmentDuration; }
+    public String getAdditionalInstructions() { return additionalInstructions; }
+    public int getFrecuency() { return frecuency; }
+
 }

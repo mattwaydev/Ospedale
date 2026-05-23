@@ -20,6 +20,7 @@ import com.uninorte.ospedale.model.entity.Patient;
 import com.uninorte.ospedale.model.enums.AppointmentStatus;
 import com.uninorte.ospedale.model.enums.HospitalizationStatus;
 import com.uninorte.ospedale.model.enums.RoomType;
+import com.uninorte.ospedale.model.dto.HospitalizationRequestDTO;
 import com.uninorte.ospedale.model.entity.User;
 
 /**
@@ -41,6 +42,10 @@ public class HospitalizationController {
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.appointmentRepository = appointmentRepository;
+    }
+
+    public Response<Object> request(HospitalizationRequestDTO dto) {
+        return request(dto.patiendId(), dto.doctorId(), dto.date(), dto.reason(), dto.roomType(), dto.observations());
     }
 
     public Response<Object> request(long patientId, long doctorId, String date,
@@ -88,14 +93,25 @@ public class HospitalizationController {
     }
 
     public Response<Object> deny(String hospitalizationId, long doctorId) {
+        return doCancel(hospitalizationId);
+    }
+
+    public Response<Object> cancel(String hospId, long actorId) {
+        return doCancel(hospId);
+    }
+
+    private Response<Object> doCancel(String hospitalizationId) {
         Optional<Hospitalization> found = hospitalizationRepository.findById(hospitalizationId);
         if (found.isEmpty())
             return ResponseFactory.notFound("Hospitalization not found");
         Hospitalization hosp = found.get();
-        if (hosp.getStatus() != HospitalizationStatus.REQUESTED)
-            return ResponseFactory.badRequest("Hospitalization is not in REQUESTED status");
-        hosp.setStatus(HospitalizationStatus.CANCELED);
-        return ResponseFactory.ok("Hospitalization denied", null);
+        if (hosp.getStatus() == HospitalizationStatus.CANCELED)
+            return ResponseFactory.badRequest("Hospitalization is already canceled");
+        if (hosp.getStatus() == HospitalizationStatus.ONGOING || hosp.getStatus() == HospitalizationStatus.REQUESTED) {
+            hosp.setStatus(HospitalizationStatus.CANCELED);
+            return ResponseFactory.ok("Hospitalization canceled", null);
+        }
+        return ResponseFactory.badRequest("Hospitalization cannot be canceled in its current status");
     }
 
     public Response<Object> fromAppointment(String appointmentId, long doctorId,

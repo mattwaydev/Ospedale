@@ -25,4 +25,6 @@ public interface IAppointmentRepository {
     String nextIdForPatient(long pid);
     
     void save(Appointment a);
+
+    default void seedCounter(long patientId, int lastUsedConsecutive) {}
 }

@@ -19,6 +19,7 @@ import com.uninorte.ospedale.model.entity.Doctor;
 import com.uninorte.ospedale.model.entity.Patient;
 import com.uninorte.ospedale.model.entity.Prescription;
 import com.uninorte.ospedale.model.enums.Specialty;
+import com.uninorte.ospedale.model.dto.AppointmentRequestDTO;
 import com.uninorte.ospedale.model.entity.User;
 /**
  *
@@ -38,7 +39,21 @@ public class AppointmentController {
         this.doctorRepository = doctorRepository;
     }
 
+    public Response<Object> request(AppointmentRequestDTO dto) {
+        boolean type = "IN_PERSON".equalsIgnoreCase(dto.type());
+        boolean byDoctor = "DOCTOR".equalsIgnoreCase(dto.mode());
+        String specialtyOrDoctorId = byDoctor
+                ? String.valueOf(dto.doctorId())
+                : (dto.specialty() != null ? dto.specialty() : "");
+        return doRequest(dto.patientId(), dto.date(), dto.time(), dto.reason(), type, specialtyOrDoctorId, byDoctor);
+    }
+
     public Response<Object> request(long patientId, String date, String time,
+            String reason, boolean type, String specialtyOrDoctorId, boolean byDoctor) {
+        return doRequest(patientId, date, time, reason, type, specialtyOrDoctorId, byDoctor);
+    }
+
+    private Response<Object> doRequest(long patientId, String date, String time,
             String reason, boolean type, String specialtyOrDoctorId, boolean byDoctor) {
 
         Optional<User> patientFound = patientRepository.findById(patientId);

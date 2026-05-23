@@ -84,4 +84,10 @@ public class InMemoryAppointmentRepository implements IAppointmentRepository {
     public void save(Appointment a) {
         byId.put(a.getId(), a);
     }
+
+    // wire usa la lista cruda — no envolverla en unmodifiableList
+    @Override
+    public void seedCounter(long patientId, int lastUsedConsecutive) {
+        counterByPatient.merge(patientId, lastUsedConsecutive + 1, Math::max);
+    }
 }

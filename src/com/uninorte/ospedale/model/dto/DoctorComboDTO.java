@@ -12,4 +12,9 @@ public record DoctorComboDTO(
         long id,
         String fullname,
         String specialty
-) {}
+) {
+    @Override
+    public String toString() {
+        return id + " - " + fullname;
+    }
+}

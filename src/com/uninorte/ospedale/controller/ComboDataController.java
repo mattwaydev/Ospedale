@@ -6,10 +6,14 @@ package com.uninorte.ospedale.controller;
 
 import com.uninorte.ospedale.controller.response.Response;
 import com.uninorte.ospedale.controller.response.ResponseFactory;
+import com.uninorte.ospedale.model.dto.DoctorComboDTO;
+import com.uninorte.ospedale.model.repository.IAppointmentRepository;
 import com.uninorte.ospedale.model.repository.IDoctorRepository;
 import java.util.ArrayList;
 import java.util.List;
+import com.uninorte.ospedale.model.entity.Appointment;
 import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.enums.AppointmentStatus;
 import com.uninorte.ospedale.model.enums.RoomType;
 import com.uninorte.ospedale.model.enums.Specialty;
 /**
@@ -17,11 +21,14 @@ import com.uninorte.ospedale.model.enums.Specialty;
  * @author Matt
  */
 public class ComboDataController {
-    
-    private final IDoctorRepository doctorRepository;
 
-    public ComboDataController(IDoctorRepository doctorRepository) {
+    private final IDoctorRepository doctorRepository;
+    private final IAppointmentRepository appointmentRepository;
+
+    public ComboDataController(IDoctorRepository doctorRepository,
+            IAppointmentRepository appointmentRepository) {
         this.doctorRepository = doctorRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     public Response<Object> getSpecialties() {
@@ -53,6 +60,17 @@ public class ComboDataController {
         return ResponseFactory.ok("Doctors", result);
     }
 
+    public List<DoctorComboDTO> getDoctorsCombo() {
+        List<Doctor> doctors = doctorRepository.findAllDoctors();
+        List<DoctorComboDTO> result = new ArrayList<>();
+        for (Doctor d : doctors) {
+            result.add(new DoctorComboDTO(d.getId(),
+                    d.getFirstname() + " " + d.getLastname(),
+                    d.getSpecialty().name()));
+        }
+        return result;
+    }
+
     public Response<Object> getDoctorsBySpecialty(String specialty) {
         Specialty spec;
         try {
@@ -69,5 +87,17 @@ public class ComboDataController {
             });
         }
         return ResponseFactory.ok("Doctors by specialty", result);
+    }
+
+    public List<String> getAppointmentIdsByPatientAndCancelable(long pid) {
+        List<Appointment> appts = appointmentRepository.findByPatientId(pid);
+        List<String> ids = new ArrayList<>();
+        for (Appointment a : appts) {
+            if (a.getStatus() != AppointmentStatus.COMPLETED
+                    && a.getStatus() != AppointmentStatus.CANCELED) {
+                ids.add(a.getId());
+            }
+        }
+        return ids;
     }
 }

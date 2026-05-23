@@ -66,4 +66,10 @@ public class InMemoryHospitalizationRepository implements IHospitalizationReposi
         h.setStatus(initialStatus);
         byId.put(h.getId(), h);
     }
+
+    // wire usa la lista cruda — no envolverla en unmodifiableList
+    @Override
+    public void seedCounter(long patientId, int lastUsedConsecutive) {
+        counterByPatient.merge(patientId, lastUsedConsecutive + 1, Math::max);
+    }
 }

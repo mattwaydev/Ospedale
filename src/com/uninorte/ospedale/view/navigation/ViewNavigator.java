@@ -14,7 +14,7 @@ import com.uninorte.ospedale.controller.ComboDataController;
 import com.uninorte.ospedale.model.dto.UserSessionDTO;
 import com.uninorte.ospedale.view.AdminView;
 import com.uninorte.ospedale.view.LoginView;
-import packagee.NewJFrame1;
+import com.uninorte.ospedale.view.PatientView;
 import packagee.NewJFrame111;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -61,7 +61,7 @@ public class ViewNavigator {
         if (currentView != null) currentView.dispose();
         switch (session.role()) {
             case ADMIN   -> showAdmin();
-            case PATIENT -> openLegacyPatient(session);
+            case PATIENT -> openPatient(session);
             case DOCTOR  -> openLegacyDoctor(session);
             default -> throw new IllegalStateException("Rol desconocido: " + session.role());
         }
@@ -87,10 +87,9 @@ public class ViewNavigator {
 
    public void openPatientAsAdmin(UserSessionDTO session) {
     if (currentView != null) currentView.dispose();
-    NewJFrame1 patientView = new NewJFrame1(
-            null, null,
-            new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-            authController, this, patientController);
+    PatientView patientView = new PatientView(session, this,
+            patientController, appointmentController, hospitalizationController,
+            tableController, comboController, true);
     currentView = patientView;
     patientView.setVisible(true);
 }
@@ -108,11 +107,10 @@ public class ViewNavigator {
         System.exit(0);
     }
 
-    private void openLegacyPatient(UserSessionDTO s) {
-    NewJFrame1 patientView = new NewJFrame1(
-            null, null,
-            new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-            authController, this, patientController);
+    private void openPatient(UserSessionDTO session) {
+    PatientView patientView = new PatientView(session, this,
+            patientController, appointmentController, hospitalizationController,
+            tableController, comboController, false);
     currentView = patientView;
     patientView.setVisible(true);
 }

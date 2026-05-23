@@ -26,6 +26,27 @@ public class PatientController {
         this.patientRepository = patientRepository;
     }
 
+    public Response<PatientFormDTO> getProfile(long id) {
+        Optional<User> found = patientRepository.findById(id);
+        if (found.isEmpty())
+            return ResponseFactory.notFound("Paciente no encontrado");
+        Patient patient = (Patient) found.get();
+        PatientFormDTO dto = new PatientFormDTO(
+                String.valueOf(patient.getId()),
+                patient.getUsername(),
+                patient.getFirstname(),
+                patient.getLastname(),
+                null,
+                null,
+                patient.getEmail(),
+                patient.getBirthdate().toString(),
+                patient.isGender() ? "Male" : "Female",
+                String.valueOf(patient.getPhone()),
+                patient.getAddress()
+        );
+        return ResponseFactory.ok("Profile loaded", dto);
+    }
+
     // Overload que recibe DTO — usado por las vistas nuevas
     public Response<?> register(PatientFormDTO dto) {
         Optional<String> idError = UserValidator.validateId(dto.id());
