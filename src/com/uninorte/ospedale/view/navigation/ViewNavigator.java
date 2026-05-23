@@ -13,10 +13,9 @@ import com.uninorte.ospedale.controller.TableDataController;
 import com.uninorte.ospedale.controller.ComboDataController;
 import com.uninorte.ospedale.model.dto.UserSessionDTO;
 import com.uninorte.ospedale.view.AdminView;
+import com.uninorte.ospedale.view.DoctorView;
 import com.uninorte.ospedale.view.LoginView;
 import com.uninorte.ospedale.view.PatientView;
-import packagee.NewJFrame111;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 
 public class ViewNavigator {
@@ -76,13 +75,7 @@ public class ViewNavigator {
     }
 
     public void openDoctorAsAdmin(UserSessionDTO session) {
-        if (currentView != null) currentView.dispose();
-        NewJFrame111 doctorView = new NewJFrame111(
-        null, null,
-        new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-        authController, this, patientController);
-        currentView = doctorView;
-        doctorView.setVisible(true);
+        openDoctor(session, true);
     }
 
    public void openPatientAsAdmin(UserSessionDTO session) {
@@ -115,12 +108,16 @@ public class ViewNavigator {
     patientView.setVisible(true);
 }
 
-    private void openLegacyDoctor(UserSessionDTO s) {
-        NewJFrame111 doctorView = new NewJFrame111(
-        null, null,
-        new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-        authController, this, patientController);
+    public void openDoctor(UserSessionDTO session, boolean asAdmin) {
+        if (currentView != null) currentView.dispose();
+        DoctorView doctorView = new DoctorView(session, this,
+                doctorController, appointmentController, hospitalizationController,
+                patientController, tableController, comboController, asAdmin);
         currentView = doctorView;
         doctorView.setVisible(true);
+    }
+
+    private void openLegacyDoctor(UserSessionDTO s) {
+        openDoctor(s, false);
     }
 }

@@ -67,6 +67,11 @@ public class InMemoryHospitalizationRepository implements IHospitalizationReposi
         byId.put(h.getId(), h);
     }
 
+    @Override
+    public List<Hospitalization> findAll() {
+        return new ArrayList<>(byId.values());
+    }
+
     // wire usa la lista cruda — no envolverla en unmodifiableList
     @Override
     public void seedCounter(long patientId, int lastUsedConsecutive) {

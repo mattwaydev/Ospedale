@@ -9,11 +9,16 @@ import com.uninorte.ospedale.controller.response.ResponseFactory;
 import com.uninorte.ospedale.model.dto.DoctorComboDTO;
 import com.uninorte.ospedale.model.repository.IAppointmentRepository;
 import com.uninorte.ospedale.model.repository.IDoctorRepository;
+import com.uninorte.ospedale.model.repository.IHospitalizationRepository;
+import com.uninorte.ospedale.model.repository.IPatientRepository;
 import java.util.ArrayList;
 import java.util.List;
 import com.uninorte.ospedale.model.entity.Appointment;
 import com.uninorte.ospedale.model.entity.Doctor;
+import com.uninorte.ospedale.model.entity.Hospitalization;
+import com.uninorte.ospedale.model.entity.Patient;
 import com.uninorte.ospedale.model.enums.AppointmentStatus;
+import com.uninorte.ospedale.model.enums.HospitalizationStatus;
 import com.uninorte.ospedale.model.enums.RoomType;
 import com.uninorte.ospedale.model.enums.Specialty;
 /**
@@ -24,11 +29,17 @@ public class ComboDataController {
 
     private final IDoctorRepository doctorRepository;
     private final IAppointmentRepository appointmentRepository;
+    private final IHospitalizationRepository hospitalizationRepository;
+    private final IPatientRepository patientRepository;
 
     public ComboDataController(IDoctorRepository doctorRepository,
-            IAppointmentRepository appointmentRepository) {
+            IAppointmentRepository appointmentRepository,
+            IHospitalizationRepository hospitalizationRepository,
+            IPatientRepository patientRepository) {
         this.doctorRepository = doctorRepository;
         this.appointmentRepository = appointmentRepository;
+        this.hospitalizationRepository = hospitalizationRepository;
+        this.patientRepository = patientRepository;
     }
 
     public Response<Object> getSpecialties() {
@@ -87,6 +98,57 @@ public class ComboDataController {
             });
         }
         return ResponseFactory.ok("Doctors by specialty", result);
+    }
+
+    public Response<Object> getAppointmentIdsByDoctorAndStatus(long doctorId, String statusName) {
+        AppointmentStatus status;
+        try {
+            status = AppointmentStatus.valueOf(statusName.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return ResponseFactory.badRequest("Invalid appointment status: " + statusName);
+        }
+        List<Appointment> appts = appointmentRepository.findByDoctorIdAndStatus(doctorId, status);
+        List<String> ids = new ArrayList<>();
+        for (Appointment a : appts) {
+            ids.add(a.getId());
+        }
+        return ResponseFactory.ok("Appointment IDs", ids);
+    }
+
+    public Response<Object> getReschedulableForDoctor(long doctorId) {
+        List<Appointment> all = appointmentRepository.findByDoctorId(doctorId);
+        List<String> ids = new ArrayList<>();
+        for (Appointment a : all) {
+            if (a.getStatus() == AppointmentStatus.REQUESTED
+                    || a.getStatus() == AppointmentStatus.PENDING) {
+                ids.add(a.getId());
+            }
+        }
+        return ResponseFactory.ok("Reschedulable appointment IDs", ids);
+    }
+
+    public Response<Object> getHospitalizationIdsByStatus(String statusName) {
+        HospitalizationStatus status;
+        try {
+            status = HospitalizationStatus.valueOf(statusName.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return ResponseFactory.badRequest("Invalid hospitalization status: " + statusName);
+        }
+        List<Hospitalization> hosps = hospitalizationRepository.findByStatus(status);
+        List<String> ids = new ArrayList<>();
+        for (Hospitalization h : hosps) {
+            ids.add(h.getId());
+        }
+        return ResponseFactory.ok("Hospitalization IDs", ids);
+    }
+
+    public Response<Object> getPatientsCombo() {
+        List<Patient> patients = patientRepository.findAllPatients();
+        List<String> items = new ArrayList<>();
+        for (Patient p : patients) {
+            items.add(p.getId() + " - " + p.getFirstname() + " " + p.getLastname());
+        }
+        return ResponseFactory.ok("Patients combo", items);
     }
 
     public List<String> getAppointmentIdsByPatientAndCancelable(long pid) {

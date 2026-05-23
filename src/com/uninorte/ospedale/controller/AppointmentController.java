@@ -20,6 +20,8 @@ import com.uninorte.ospedale.model.entity.Patient;
 import com.uninorte.ospedale.model.entity.Prescription;
 import com.uninorte.ospedale.model.enums.Specialty;
 import com.uninorte.ospedale.model.dto.AppointmentRequestDTO;
+import com.uninorte.ospedale.model.dto.CompleteAppointmentDTO;
+import com.uninorte.ospedale.model.dto.PrescriptionDTO;
 import com.uninorte.ospedale.model.entity.User;
 /**
  *
@@ -123,7 +125,17 @@ public class AppointmentController {
         return ResponseFactory.ok("Appointment accepted", null);
     }
 
+    public Response<Object> complete(String appointmentId, long doctorId, CompleteAppointmentDTO dto) {
+        return doComplete(appointmentId, doctorId, dto.diagnosis(), dto.observations(),
+                dto.recommendedTreatment(), dto.followUp());
+    }
+
     public Response<Object> complete(String appointmentId, long doctorId) {
+        return doComplete(appointmentId, doctorId, null, null, null, null);
+    }
+
+    private Response<Object> doComplete(String appointmentId, long doctorId,
+            String diagnosis, String observations, String treatment, String followUp) {
         Optional<Appointment> found = appointmentRepository.findById(appointmentId);
         if (found.isEmpty())
             return ResponseFactory.notFound("Appointment not found");
@@ -133,6 +145,10 @@ public class AppointmentController {
         if (appointment.getDoctor().getId() != doctorId)
             return ResponseFactory.unauthorized("Doctor is not assigned to this appointment");
         appointment.setStatus(AppointmentStatus.COMPLETED);
+        if (diagnosis != null) appointment.setDiagnosis(diagnosis);
+        if (observations != null) appointment.setObservations(observations);
+        if (treatment != null) appointment.setRecommendedTreatment(treatment);
+        if (followUp != null) appointment.setFollowUp(followUp);
         return ResponseFactory.ok("Appointment completed", null);
     }
 
@@ -163,6 +179,20 @@ public class AppointmentController {
         appointment.setDatetime(newSlot);
         appointment.setReason(appointment.getReason() + " | Rescheduled: " + reason);
         return ResponseFactory.ok("Appointment rescheduled", null);
+    }
+
+    public Response<Object> prescribe(String appointmentId, long doctorId, PrescriptionDTO dto) {
+        double dose;
+        int duration, frequency;
+        try {
+            dose = Double.parseDouble(dto.dose());
+            duration = Integer.parseInt(dto.treatmentDuration());
+            frequency = Integer.parseInt(dto.frequency());
+        } catch (NumberFormatException e) {
+            return ResponseFactory.badRequest("Dose, duration and frequency must be numbers");
+        }
+        return prescribe(appointmentId, doctorId, dto.medicationName(), dose,
+                dto.administrationRoute(), duration, dto.additionalInstructions(), frequency);
     }
 
     public Response<Object> prescribe(String appointmentId, long doctorId,

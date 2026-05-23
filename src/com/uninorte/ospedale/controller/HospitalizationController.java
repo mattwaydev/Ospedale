@@ -20,6 +20,7 @@ import com.uninorte.ospedale.model.entity.Patient;
 import com.uninorte.ospedale.model.enums.AppointmentStatus;
 import com.uninorte.ospedale.model.enums.HospitalizationStatus;
 import com.uninorte.ospedale.model.enums.RoomType;
+import com.uninorte.ospedale.model.dto.HospitalizationFromAppointmentDTO;
 import com.uninorte.ospedale.model.dto.HospitalizationRequestDTO;
 import com.uninorte.ospedale.model.entity.User;
 
@@ -112,6 +113,12 @@ public class HospitalizationController {
             return ResponseFactory.ok("Hospitalization canceled", null);
         }
         return ResponseFactory.badRequest("Hospitalization cannot be canceled in its current status");
+    }
+
+    public Response<Object> fromAppointment(String appointmentId, long doctorId,
+            HospitalizationFromAppointmentDTO dto) {
+        return fromAppointment(appointmentId, doctorId, dto.date(), dto.reason(),
+                dto.roomType(), dto.observations());
     }
 
     public Response<Object> fromAppointment(String appointmentId, long doctorId,

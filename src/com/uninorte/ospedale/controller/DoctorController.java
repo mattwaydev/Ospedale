@@ -27,6 +27,25 @@ public class DoctorController {
         this.doctorRepository = doctorRepository;
     }
 
+    public Response<DoctorFormDTO> getProfile(long id) {
+        Optional<User> found = doctorRepository.findById(id);
+        if (found.isEmpty())
+            return ResponseFactory.notFound("Doctor not found");
+        Doctor doctor = (Doctor) found.get();
+        DoctorFormDTO dto = new DoctorFormDTO(
+                String.valueOf(doctor.getId()),
+                doctor.getUsername(),
+                doctor.getFirstname(),
+                doctor.getLastname(),
+                null,
+                null,
+                doctor.getSpecialty().name(),
+                doctor.getLicenceNumber(),
+                doctor.getAssignedOffice()
+        );
+        return ResponseFactory.ok("Profile loaded", dto);
+    }
+
     // Overload que recibe DTO — usado por las vistas nuevas
     public Response<?> register(DoctorFormDTO dto) {
         Optional<String> idError = UserValidator.validateId(dto.id());

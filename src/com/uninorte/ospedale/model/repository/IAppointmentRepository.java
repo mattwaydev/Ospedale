@@ -26,5 +26,7 @@ public interface IAppointmentRepository {
     
     void save(Appointment a);
 
+    default List<Appointment> findAll() { return new java.util.ArrayList<>(); }
+
     default void seedCounter(long patientId, int lastUsedConsecutive) {}
 }

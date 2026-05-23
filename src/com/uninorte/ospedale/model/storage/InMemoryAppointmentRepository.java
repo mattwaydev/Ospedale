@@ -85,6 +85,11 @@ public class InMemoryAppointmentRepository implements IAppointmentRepository {
         byId.put(a.getId(), a);
     }
 
+    @Override
+    public List<Appointment> findAll() {
+        return new ArrayList<>(byId.values());
+    }
+
     // wire usa la lista cruda — no envolverla en unmodifiableList
     @Override
     public void seedCounter(long patientId, int lastUsedConsecutive) {

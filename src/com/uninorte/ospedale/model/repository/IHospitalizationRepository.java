@@ -24,5 +24,7 @@ public interface IHospitalizationRepository {
     
     void save(Hospitalization h, HospitalizationStatus initialStatus);
 
+    default List<Hospitalization> findAll() { return new java.util.ArrayList<>(); }
+
     default void seedCounter(long patientId, int lastUsedConsecutive) {}
 }

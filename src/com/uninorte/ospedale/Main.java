@@ -58,7 +58,7 @@ DoctorController doctorController = new DoctorController(doctorRepo);
 AppointmentController appointmentController = new AppointmentController(apptRepo, patientRepo, doctorRepo);
 HospitalizationController hospitalizationController = new HospitalizationController(hospRepo, patientRepo, doctorRepo, apptRepo);
 TableDataController tableController = new TableDataController(apptRepo, patientRepo, doctorRepo, hospRepo);
-ComboDataController comboController = new ComboDataController(doctorRepo, apptRepo);
+ComboDataController comboController = new ComboDataController(doctorRepo, apptRepo, hospRepo, patientRepo);
 
 ViewNavigator navigator = new ViewNavigator(
     authController,
