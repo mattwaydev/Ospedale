@@ -44,7 +44,7 @@ public class PatientController {
                 String.valueOf(patient.getPhone()),
                 patient.getAddress()
         );
-        return ResponseFactory.ok("Profile loaded", dto);
+        return ResponseFactory.ok("Perfil cargado", dto);
     }
 
     // Overload que recibe DTO — usado por las vistas nuevas

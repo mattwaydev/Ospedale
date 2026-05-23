@@ -4,13 +4,6 @@
  */
 package com.uninorte.ospedale.view;
 
-import com.uninorte.ospedale.model.entity.Hospitalization;
-import com.uninorte.ospedale.model.entity.Appointment;
-import com.uninorte.ospedale.model.entity.Doctor;
-import com.uninorte.ospedale.model.entity.Patient;
-import com.uninorte.ospedale.model.entity.Administrator;
-import com.uninorte.ospedale.model.entity.User;
-import com.formdev.flatlaf.FlatDarkLaf;
 import com.uninorte.ospedale.controller.PatientController;
 import com.uninorte.ospedale.model.dto.PatientFormDTO;
 import com.uninorte.ospedale.controller.AuthController;
@@ -485,16 +478,12 @@ public class LoginView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegisterPatientActionPerformed
 
     private void txtRegPasswordConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRegPasswordConfirmActionPerformed
-        // TODO add your handling code here:
-     
     }//GEN-LAST:event_txtRegPasswordConfirmActionPerformed
 
     private void txtRegAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRegAddressActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtRegAddressActionPerformed
 
     private void txtRegBirthdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRegBirthdateActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txtRegBirthdateActionPerformed
 
     

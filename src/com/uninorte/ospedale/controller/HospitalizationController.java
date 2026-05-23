@@ -54,24 +54,24 @@ public class HospitalizationController {
 
         Optional<User> patientFound = patientRepository.findById(patientId);
         if (patientFound.isEmpty())
-            return ResponseFactory.notFound("Patient not found");
+            return ResponseFactory.notFound("Paciente no encontrado");
 
         Optional<User> doctorFound = doctorRepository.findById(doctorId);
         if (doctorFound.isEmpty())
-            return ResponseFactory.notFound("Doctor not found");
+            return ResponseFactory.notFound("Médico no encontrado");
 
         LocalDate admissionDate;
         try {
             admissionDate = LocalDate.parse(date);
         } catch (DateTimeParseException e) {
-            return ResponseFactory.badRequest("Invalid date format, use YYYY-MM-DD");
+            return ResponseFactory.badRequest("Formato de fecha inválido, use AAAA-MM-DD");
         }
 
         RoomType room;
         try {
             room = RoomType.valueOf(roomType.toUpperCase());
         } catch (IllegalArgumentException e) {
-            return ResponseFactory.badRequest("Invalid room type");
+            return ResponseFactory.badRequest("Tipo de habitación inválido");
         }
 
         Patient patient = (Patient) patientFound.get();
@@ -79,18 +79,18 @@ public class HospitalizationController {
         String id = hospitalizationRepository.nextIdForPatient(patientId);
         Hospitalization hosp = new Hospitalization(id, patient, doctor, admissionDate, reason, room, observations);
         hospitalizationRepository.save(hosp);
-        return ResponseFactory.ok("Hospitalization requested successfully", id);
+        return ResponseFactory.ok("Hospitalización solicitada exitosamente", id);
     }
 
     public Response<Object> approve(String hospitalizationId, long doctorId) {
         Optional<Hospitalization> found = hospitalizationRepository.findById(hospitalizationId);
         if (found.isEmpty())
-            return ResponseFactory.notFound("Hospitalization not found");
+            return ResponseFactory.notFound("Hospitalización no encontrada");
         Hospitalization hosp = found.get();
         if (hosp.getStatus() != HospitalizationStatus.REQUESTED)
-            return ResponseFactory.badRequest("Hospitalization is not in REQUESTED status");
+            return ResponseFactory.badRequest("La hospitalización no está en estado REQUESTED");
         hosp.setStatus(HospitalizationStatus.ONGOING);
-        return ResponseFactory.ok("Hospitalization approved", null);
+        return ResponseFactory.ok("Hospitalización aprobada", null);
     }
 
     public Response<Object> deny(String hospitalizationId, long doctorId) {
@@ -104,15 +104,15 @@ public class HospitalizationController {
     private Response<Object> doCancel(String hospitalizationId) {
         Optional<Hospitalization> found = hospitalizationRepository.findById(hospitalizationId);
         if (found.isEmpty())
-            return ResponseFactory.notFound("Hospitalization not found");
+            return ResponseFactory.notFound("Hospitalización no encontrada");
         Hospitalization hosp = found.get();
         if (hosp.getStatus() == HospitalizationStatus.CANCELED)
-            return ResponseFactory.badRequest("Hospitalization is already canceled");
+            return ResponseFactory.badRequest("La hospitalización ya está cancelada");
         if (hosp.getStatus() == HospitalizationStatus.ONGOING || hosp.getStatus() == HospitalizationStatus.REQUESTED) {
             hosp.setStatus(HospitalizationStatus.CANCELED);
-            return ResponseFactory.ok("Hospitalization canceled", null);
+            return ResponseFactory.ok("Hospitalización cancelada", null);
         }
-        return ResponseFactory.badRequest("Hospitalization cannot be canceled in its current status");
+        return ResponseFactory.badRequest("La hospitalización no se puede cancelar en su estado actual");
     }
 
     public Response<Object> fromAppointment(String appointmentId, long doctorId,
@@ -126,24 +126,24 @@ public class HospitalizationController {
 
         Optional<Appointment> apptFound = appointmentRepository.findById(appointmentId);
         if (apptFound.isEmpty())
-            return ResponseFactory.notFound("Appointment not found");
+            return ResponseFactory.notFound("Cita no encontrada");
 
         Appointment appointment = apptFound.get();
         if (appointment.getDoctor().getId() != doctorId)
-            return ResponseFactory.unauthorized("Doctor is not assigned to this appointment");
+            return ResponseFactory.unauthorized("El médico no está asignado a esta cita");
 
         LocalDate admissionDate;
         try {
             admissionDate = LocalDate.parse(date);
         } catch (DateTimeParseException e) {
-            return ResponseFactory.badRequest("Invalid date format, use YYYY-MM-DD");
+            return ResponseFactory.badRequest("Formato de fecha inválido, use AAAA-MM-DD");
         }
 
         RoomType room;
         try {
             room = RoomType.valueOf(roomType.toUpperCase());
         } catch (IllegalArgumentException e) {
-            return ResponseFactory.badRequest("Invalid room type");
+            return ResponseFactory.badRequest("Tipo de habitación inválido");
         }
 
         appointment.setStatus(AppointmentStatus.COMPLETED);
@@ -152,6 +152,6 @@ public class HospitalizationController {
         String id = hospitalizationRepository.nextIdForPatient(patient.getId());
         Hospitalization hosp = new Hospitalization(id, patient, doctor, admissionDate, reason, room, observations, HospitalizationStatus.ONGOING);
         hospitalizationRepository.save(hosp);
-        return ResponseFactory.ok("Hospitalization created from appointment", id);
+        return ResponseFactory.ok("Hospitalización creada desde cita", id);
     }
 }

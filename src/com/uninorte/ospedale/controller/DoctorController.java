@@ -30,7 +30,7 @@ public class DoctorController {
     public Response<DoctorFormDTO> getProfile(long id) {
         Optional<User> found = doctorRepository.findById(id);
         if (found.isEmpty())
-            return ResponseFactory.notFound("Doctor not found");
+            return ResponseFactory.notFound("Médico no encontrado");
         Doctor doctor = (Doctor) found.get();
         DoctorFormDTO dto = new DoctorFormDTO(
                 String.valueOf(doctor.getId()),
@@ -43,7 +43,7 @@ public class DoctorController {
                 doctor.getLicenceNumber(),
                 doctor.getAssignedOffice()
         );
-        return ResponseFactory.ok("Profile loaded", dto);
+        return ResponseFactory.ok("Perfil cargado", dto);
     }
 
     // Overload que recibe DTO — usado por las vistas nuevas

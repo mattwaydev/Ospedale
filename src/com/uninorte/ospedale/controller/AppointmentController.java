@@ -60,17 +60,17 @@ public class AppointmentController {
 
         Optional<User> patientFound = patientRepository.findById(patientId);
         if (patientFound.isEmpty())
-            return ResponseFactory.notFound("Patient not found");
+            return ResponseFactory.notFound("Paciente no encontrado");
 
         LocalDate appointmentDate;
         try {
             appointmentDate = LocalDate.parse(date);
         } catch (DateTimeParseException e) {
-            return ResponseFactory.badRequest("Invalid date format, use YYYY-MM-DD");
+            return ResponseFactory.badRequest("Formato de fecha inválido, use AAAA-MM-DD");
         }
 
         if (!time.matches("^([01]\\d|2[0-3]):(00|15|30|45)$"))
-            return ResponseFactory.badRequest("Invalid time, use HH:mm with minutes 00, 15, 30 or 45");
+            return ResponseFactory.badRequest("Hora inválida, use HH:mm con minutos 00, 15, 30 o 45");
 
         LocalTime appointmentTime = LocalTime.parse(time);
         LocalDateTime slot = LocalDateTime.of(appointmentDate, appointmentTime);
@@ -83,16 +83,16 @@ public class AppointmentController {
             long doctorId = Long.parseLong(specialtyOrDoctorId);
             Optional<User> doctorFound = doctorRepository.findById(doctorId);
             if (doctorFound.isEmpty())
-                return ResponseFactory.notFound("Doctor not found");
+                return ResponseFactory.notFound("Médico no encontrado");
             doctor = (Doctor) doctorFound.get();
             specialty = doctor.getSpecialty();
             if (!appointmentRepository.doctorIsAvailableAt(doctorId, slot))
-                return ResponseFactory.conflict("Doctor is not available at that time");
+                return ResponseFactory.conflict("El médico no está disponible a esa hora");
         } else {
             try {
                 specialty = Specialty.valueOf(specialtyOrDoctorId.toUpperCase().replace(" & ", "_"));
             } catch (IllegalArgumentException e) {
-                return ResponseFactory.badRequest("Invalid specialty");
+                return ResponseFactory.badRequest("Especialidad inválida");
             }
             java.util.List<Doctor> doctors = doctorRepository.findBySpecialty(specialty);
             doctor = null;
@@ -103,26 +103,26 @@ public class AppointmentController {
                 }
             }
             if (doctor == null)
-                return ResponseFactory.conflict("No doctor available for that specialty at that time");
+                return ResponseFactory.conflict("No hay médicos disponibles para esa especialidad a esa hora");
         }
 
         String id = appointmentRepository.nextIdForPatient(patientId);
         Appointment appointment = new Appointment(id, patient, doctor, specialty, slot, reason, type);
         appointmentRepository.save(appointment);
-        return ResponseFactory.ok("Appointment requested successfully", id);
+        return ResponseFactory.ok("Cita solicitada exitosamente", id);
     }
 
     public Response<Object> accept(String appointmentId, long doctorId) {
         Optional<Appointment> found = appointmentRepository.findById(appointmentId);
         if (found.isEmpty())
-            return ResponseFactory.notFound("Appointment not found");
+            return ResponseFactory.notFound("Cita no encontrada");
         Appointment appointment = found.get();
         if (appointment.getStatus() != AppointmentStatus.REQUESTED)
-            return ResponseFactory.badRequest("Appointment is not in REQUESTED status");
+            return ResponseFactory.badRequest("La cita no está en estado REQUESTED");
         if (appointment.getDoctor().getId() != doctorId)
-            return ResponseFactory.unauthorized("Doctor is not assigned to this appointment");
+            return ResponseFactory.unauthorized("El médico no está asignado a esta cita");
         appointment.setStatus(AppointmentStatus.PENDING);
-        return ResponseFactory.ok("Appointment accepted", null);
+        return ResponseFactory.ok("Cita aceptada", null);
     }
 
     public Response<Object> complete(String appointmentId, long doctorId, CompleteAppointmentDTO dto) {
@@ -138,47 +138,47 @@ public class AppointmentController {
             String diagnosis, String observations, String treatment, String followUp) {
         Optional<Appointment> found = appointmentRepository.findById(appointmentId);
         if (found.isEmpty())
-            return ResponseFactory.notFound("Appointment not found");
+            return ResponseFactory.notFound("Cita no encontrada");
         Appointment appointment = found.get();
         if (appointment.getStatus() != AppointmentStatus.PENDING)
-            return ResponseFactory.badRequest("Appointment is not in PENDING status");
+            return ResponseFactory.badRequest("La cita no está en estado PENDING");
         if (appointment.getDoctor().getId() != doctorId)
-            return ResponseFactory.unauthorized("Doctor is not assigned to this appointment");
+            return ResponseFactory.unauthorized("El médico no está asignado a esta cita");
         appointment.setStatus(AppointmentStatus.COMPLETED);
         if (diagnosis != null) appointment.setDiagnosis(diagnosis);
         if (observations != null) appointment.setObservations(observations);
         if (treatment != null) appointment.setRecommendedTreatment(treatment);
         if (followUp != null) appointment.setFollowUp(followUp);
-        return ResponseFactory.ok("Appointment completed", null);
+        return ResponseFactory.ok("Cita completada", null);
     }
 
     public Response<Object> cancel(String appointmentId, long patientId) {
         Optional<Appointment> found = appointmentRepository.findById(appointmentId);
         if (found.isEmpty())
-            return ResponseFactory.notFound("Appointment not found");
+            return ResponseFactory.notFound("Cita no encontrada");
         Appointment appointment = found.get();
         if (appointment.getStatus() == AppointmentStatus.COMPLETED)
-            return ResponseFactory.badRequest("Cannot cancel a completed appointment");
+            return ResponseFactory.badRequest("No se puede cancelar una cita completada");
         if (appointment.getPatient().getId() != patientId)
-            return ResponseFactory.unauthorized("Patient is not assigned to this appointment");
+            return ResponseFactory.unauthorized("El paciente no está asignado a esta cita");
         appointment.setStatus(AppointmentStatus.CANCELED);
-        return ResponseFactory.ok("Appointment cancelled", null);
+        return ResponseFactory.ok("Cita cancelada", null);
     }
 
     public Response<Object> reschedule(String appointmentId, long doctorId, String newTime, String reason) {
         Optional<Appointment> found = appointmentRepository.findById(appointmentId);
         if (found.isEmpty())
-            return ResponseFactory.notFound("Appointment not found");
+            return ResponseFactory.notFound("Cita no encontrada");
         Appointment appointment = found.get();
         if (appointment.getDoctor().getId() != doctorId)
-            return ResponseFactory.unauthorized("Doctor is not assigned to this appointment");
+            return ResponseFactory.unauthorized("El médico no está asignado a esta cita");
         if (!newTime.matches("^([01]\\d|2[0-3]):(00|15|30|45)$"))
-            return ResponseFactory.badRequest("Invalid time, use HH:mm with minutes 00, 15, 30 or 45");
+            return ResponseFactory.badRequest("Hora inválida, use HH:mm con minutos 00, 15, 30 o 45");
         LocalTime time = LocalTime.parse(newTime);
         LocalDateTime newSlot = LocalDateTime.of(appointment.getDatetime().toLocalDate(), time);
         appointment.setDatetime(newSlot);
-        appointment.setReason(appointment.getReason() + " | Rescheduled: " + reason);
-        return ResponseFactory.ok("Appointment rescheduled", null);
+        appointment.setReason(appointment.getReason() + " | Reagendada: " + reason);
+        return ResponseFactory.ok("Cita reagendada", null);
     }
 
     public Response<Object> prescribe(String appointmentId, long doctorId, PrescriptionDTO dto) {
@@ -189,7 +189,7 @@ public class AppointmentController {
             duration = Integer.parseInt(dto.treatmentDuration());
             frequency = Integer.parseInt(dto.frequency());
         } catch (NumberFormatException e) {
-            return ResponseFactory.badRequest("Dose, duration and frequency must be numbers");
+            return ResponseFactory.badRequest("Dosis, duración y frecuencia deben ser numéricos");
         }
         return prescribe(appointmentId, doctorId, dto.medicationName(), dose,
                 dto.administrationRoute(), duration, dto.additionalInstructions(), frequency);
@@ -199,14 +199,14 @@ public class AppointmentController {
             String medicationName, double dose, String administrationRoute, int treatmentDuration, String additionalInstructions, int frecuency ) {
         Optional<Appointment> found = appointmentRepository.findById(appointmentId);
         if (found.isEmpty())
-            return ResponseFactory.notFound("Appointment not found");
+            return ResponseFactory.notFound("Cita no encontrada");
         Appointment appointment = found.get();
         if (appointment.getDoctor().getId() != doctorId)
-            return ResponseFactory.unauthorized("Doctor is not assigned to this appointment");
+            return ResponseFactory.unauthorized("El médico no está asignado a esta cita");
         if (appointment.getStatus() != AppointmentStatus.PENDING)
-            return ResponseFactory.badRequest("Can only prescribe during an accepted appointment");
+            return ResponseFactory.badRequest("Solo se puede recetar durante una cita aceptada");
         appointment.addPrescription(new Prescription(appointment, medicationName, dose, administrationRoute, treatmentDuration, additionalInstructions, frecuency ));
-        return ResponseFactory.ok("Prescription added", null);
+        return ResponseFactory.ok("Receta registrada", null);
     }
 }
 

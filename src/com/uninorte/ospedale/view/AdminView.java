@@ -10,7 +10,9 @@ import com.uninorte.ospedale.controller.PatientController;
 import com.uninorte.ospedale.controller.TableDataController;
 import java.awt.Color;
 import com.uninorte.ospedale.model.dto.DoctorFormDTO;
+import com.uninorte.ospedale.model.dto.PatientFormDTO;
 import com.uninorte.ospedale.model.dto.UserSessionDTO;
+import com.uninorte.ospedale.model.enums.Role;
 import com.uninorte.ospedale.view.navigation.ViewNavigator;
 import com.uninorte.ospedale.controller.response.Response;
 
@@ -31,6 +33,8 @@ public class AdminView extends javax.swing.JFrame {
     private final TableDataController tableController;
     private final ViewNavigator navigator;
     private final UserSessionDTO session;
+    private final java.util.List<Long> doctorComboIds = new java.util.ArrayList<>();
+    private final java.util.List<Long> patientComboIds = new java.util.ArrayList<>();
     public AdminView(
         DoctorController doctorController,
         PatientController patientController,
@@ -63,6 +67,29 @@ public class AdminView extends javax.swing.JFrame {
     cmbDocSpecialty.setModel(new DefaultComboBoxModel<>(
         specialties.toArray(new String[0])
     ));
+
+    @SuppressWarnings("unchecked")
+    java.util.List<String[]> doctors = (java.util.List<String[]>) comboController.getDoctors().data;
+    doctorComboIds.clear();
+    java.util.List<String> doctorItems = new java.util.ArrayList<>();
+    doctorItems.add("Select one");
+    for (String[] d : doctors) {
+        doctorComboIds.add(Long.parseLong(d[0]));
+        doctorItems.add(d[1]);
+    }
+    cmbSelectDoctor.setModel(new DefaultComboBoxModel<>(doctorItems.toArray(new String[0])));
+
+    @SuppressWarnings("unchecked")
+    java.util.List<String> patients = (java.util.List<String>) comboController.getPatientsCombo().data;
+    patientComboIds.clear();
+    java.util.List<String> patientItems = new java.util.ArrayList<>();
+    patientItems.add("Select one");
+    for (String item : patients) {
+        String[] parts = item.split(" - ", 2);
+        patientComboIds.add(Long.parseLong(parts[0].trim()));
+        patientItems.add(parts.length > 1 ? parts[1] : item);
+    }
+    cmbSelectPatient.setModel(new DefaultComboBoxModel<>(patientItems.toArray(new String[0])));
 }
    
 
@@ -480,7 +507,21 @@ if (r.code == 200) {
     }//GEN-LAST:event_btnRegisterDoctorActionPerformed
 
     private void btnGoDoctorViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoDoctorViewActionPerformed
-        navigator.openDoctorAsAdmin(session);
+        int idx = cmbSelectDoctor.getSelectedIndex() - 1;
+        if (idx < 0 || idx >= doctorComboIds.size()) {
+            JOptionPane.showMessageDialog(this, "Seleccione un médico");
+            return;
+        }
+        long doctorId = doctorComboIds.get(idx);
+        Response<DoctorFormDTO> resp = doctorController.getProfile(doctorId);
+        if (resp.getCode() != 200) {
+            JOptionPane.showMessageDialog(this, resp.getMessage());
+            return;
+        }
+        DoctorFormDTO dto = resp.getData();
+        UserSessionDTO doctorSession = new UserSessionDTO(
+                doctorId, dto.username(), dto.firstname(), dto.lastname(), Role.DOCTOR);
+        navigator.openDoctorAsAdmin(doctorSession);
     }//GEN-LAST:event_btnGoDoctorViewActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -489,7 +530,21 @@ if (r.code == 200) {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnGoPatientViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoPatientViewActionPerformed
-       navigator.openPatientAsAdmin(session);
+        int idx = cmbSelectPatient.getSelectedIndex() - 1;
+        if (idx < 0 || idx >= patientComboIds.size()) {
+            JOptionPane.showMessageDialog(this, "Seleccione un paciente");
+            return;
+        }
+        long patientId = patientComboIds.get(idx);
+        Response<PatientFormDTO> resp = patientController.getProfile(patientId);
+        if (resp.getCode() != 200) {
+            JOptionPane.showMessageDialog(this, resp.getMessage());
+            return;
+        }
+        PatientFormDTO dto = resp.getData();
+        UserSessionDTO patientSession = new UserSessionDTO(
+                patientId, dto.username(), dto.firstname(), dto.lastname(), Role.PATIENT);
+        navigator.openPatientAsAdmin(patientSession);
     }//GEN-LAST:event_btnGoPatientViewActionPerformed
 
 

@@ -87,7 +87,7 @@ public class ComboDataController {
         try {
             spec = Specialty.valueOf(specialty.toUpperCase().replace(" & ", "_"));
         } catch (IllegalArgumentException e) {
-            return ResponseFactory.badRequest("Invalid specialty");
+            return ResponseFactory.badRequest("Especialidad inválida");
         }
         List<Doctor> doctors = doctorRepository.findBySpecialty(spec);
         List<String[]> result = new ArrayList<>();
@@ -105,7 +105,7 @@ public class ComboDataController {
         try {
             status = AppointmentStatus.valueOf(statusName.toUpperCase());
         } catch (IllegalArgumentException e) {
-            return ResponseFactory.badRequest("Invalid appointment status: " + statusName);
+            return ResponseFactory.badRequest("Estado de cita inválido: " + statusName);
         }
         List<Appointment> appts = appointmentRepository.findByDoctorIdAndStatus(doctorId, status);
         List<String> ids = new ArrayList<>();
@@ -132,7 +132,7 @@ public class ComboDataController {
         try {
             status = HospitalizationStatus.valueOf(statusName.toUpperCase());
         } catch (IllegalArgumentException e) {
-            return ResponseFactory.badRequest("Invalid hospitalization status: " + statusName);
+            return ResponseFactory.badRequest("Estado de hospitalización inválido: " + statusName);
         }
         List<Hospitalization> hosps = hospitalizationRepository.findByStatus(status);
         List<String> ids = new ArrayList<>();
