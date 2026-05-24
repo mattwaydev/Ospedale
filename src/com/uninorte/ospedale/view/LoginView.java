@@ -55,7 +55,7 @@ public class LoginView extends javax.swing.JFrame {
         txtLoginPassword = new javax.swing.JTextField();
         lblLoginPassword = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        pnlRegisterPatient = new javax.swing.JPanel();
         lblRegFirstname = new javax.swing.JLabel();
         txtRegFirstname = new javax.swing.JTextField();
         lblRegLastname = new javax.swing.JLabel();
@@ -272,50 +272,50 @@ public class LoginView extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlRegisterPatientLayout = new javax.swing.GroupLayout(pnlRegisterPatient);
+        pnlRegisterPatient.setLayout(pnlRegisterPatientLayout);
+        pnlRegisterPatientLayout.setHorizontalGroup(
+            pnlRegisterPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
+                .addGroup(pnlRegisterPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                         .addGap(450, 450, 450)
                         .addComponent(lblRegPassword))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                         .addGap(434, 434, 434)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlRegisterPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtRegUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtRegPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                         .addGap(473, 473, 473)
                         .addComponent(lblRegUsername))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                         .addGap(432, 432, 432)
                         .addComponent(txtRegPasswordConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                         .addGap(456, 456, 456)
                         .addComponent(btnRegisterPatient))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                         .addGap(396, 396, 396)
                         .addComponent(lblRegPasswordConfirm))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                         .addGap(91, 91, 91)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(pnlRegisterPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                                 .addComponent(lblRegBirthdate)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txtRegBirthdate, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                                 .addComponent(lblRegFirstname)
                                 .addGap(34, 34, 34)
                                 .addComponent(txtRegFirstname, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlRegisterPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblRegLastname)
                             .addComponent(lblRegAddress))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(pnlRegisterPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                                 .addComponent(txtRegLastname, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(lblRegId)
@@ -325,7 +325,7 @@ public class LoginView extends javax.swing.JFrame {
                                 .addComponent(lblRegGender)
                                 .addGap(26, 26, 26)
                                 .addComponent(cmbRegGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                                 .addComponent(txtRegAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(lblRegPhone)
@@ -337,11 +337,11 @@ public class LoginView extends javax.swing.JFrame {
                                 .addComponent(txtRegEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(97, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        pnlRegisterPatientLayout.setVerticalGroup(
+            pnlRegisterPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlRegisterPatientLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlRegisterPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblRegFirstname)
                     .addComponent(txtRegFirstname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblRegLastname)
@@ -351,15 +351,15 @@ public class LoginView extends javax.swing.JFrame {
                     .addComponent(lblRegGender)
                     .addComponent(cmbRegGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlRegisterPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlRegisterPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblRegBirthdate)
                         .addComponent(txtRegBirthdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblRegAddress)
                         .addComponent(txtRegAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblRegPhone)
                         .addComponent(txtRegPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(pnlRegisterPatientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblRegEmail)
                         .addComponent(txtRegEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
@@ -379,7 +379,7 @@ public class LoginView extends javax.swing.JFrame {
                 .addGap(42, 42, 42))
         );
 
-        tabsLoginRegister.addTab("Patient register", jPanel3);
+        tabsLoginRegister.addTab("Patient register", pnlRegisterPatient);
 
         javax.swing.GroupLayout pnlRootLayout = new javax.swing.GroupLayout(pnlRoot);
         pnlRoot.setLayout(pnlRootLayout);
@@ -494,7 +494,7 @@ public class LoginView extends javax.swing.JFrame {
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnRegisterPatient;
     private javax.swing.JComboBox<String> cmbRegGender;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel pnlRegisterPatient;
     private javax.swing.JLabel lblLoginPassword;
     private javax.swing.JLabel lblLoginTitle;
     private javax.swing.JLabel lblLoginUsername;

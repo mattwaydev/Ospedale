@@ -108,6 +108,9 @@ public class DoctorController {
         if (found.isEmpty())
             return ResponseFactory.notFound("Doctor no encontrado");
 
+        Optional<String> usernameError = UserValidator.validateUsername(username);
+        if (usernameError.isPresent()) return ResponseFactory.badRequest(usernameError.get());
+
         Optional<String> passwordError = UserValidator.validatePasswordMatch(password, confirmPassword);
         if (passwordError.isPresent()) return ResponseFactory.badRequest(passwordError.get());
 
@@ -125,6 +128,11 @@ public class DoctorController {
         }
 
         Doctor doctor = (Doctor) found.get();
+        // unicidad de username: solo chequea si el username cambió
+        if (!username.equals(doctor.getUsername())
+                && doctorRepository.existsByUsername(username))
+            return ResponseFactory.conflict("El nombre de usuario ya existe");
+
         doctor.setUsername(username);
         doctor.setFirstname(firstname);
         doctor.setLastname(lastname);
@@ -132,6 +140,7 @@ public class DoctorController {
         doctor.setSpecialty(spec);
         doctor.setLicenceNumber(licenceNumber);
         doctor.setAssignedOffice(assignedOffice);
+        doctorRepository.save(doctor);
         return ResponseFactory.ok("Doctor actualizado exitosamente", null);
     }
 }

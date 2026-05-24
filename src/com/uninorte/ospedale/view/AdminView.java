@@ -9,7 +9,9 @@ import com.uninorte.ospedale.controller.DoctorController;
 import com.uninorte.ospedale.controller.PatientController;
 import com.uninorte.ospedale.controller.TableDataController;
 import java.awt.Color;
+import com.uninorte.ospedale.model.dto.DoctorComboDTO;
 import com.uninorte.ospedale.model.dto.DoctorFormDTO;
+import com.uninorte.ospedale.model.dto.PatientComboDTO;
 import com.uninorte.ospedale.model.dto.PatientFormDTO;
 import com.uninorte.ospedale.model.dto.UserSessionDTO;
 import com.uninorte.ospedale.model.enums.Role;
@@ -56,38 +58,40 @@ public class AdminView extends javax.swing.JFrame {
     this.setBackground(new Color(0, 0, 0, 0));
     this.setLocationRelativeTo(null);
 
+    lblAdminTitle.setText("ADMIN VIEW — " + session.firstname() + " " + session.lastname()
+            + " (" + session.username() + ")");
+
     loadCombos();
 }
     
    private void loadCombos() {
     txtDocPassword.setText("");
     txtDocPasswordConfirm.setText("");
-    @SuppressWarnings("unchecked")
-    java.util.List<String> specialties = (java.util.List<String>) comboController.getSpecialties().data;
+    Response<java.util.List<String>> specResp = comboController.getSpecialties();
+    java.util.List<String> specialties = specResp.getCode() == 200 ? specResp.getData() : new java.util.ArrayList<>();
     cmbDocSpecialty.setModel(new DefaultComboBoxModel<>(
         specialties.toArray(new String[0])
     ));
 
-    @SuppressWarnings("unchecked")
-    java.util.List<String[]> doctors = (java.util.List<String[]>) comboController.getDoctors().data;
+    Response<java.util.List<DoctorComboDTO>> docResp = comboController.getDoctorsCombo();
+    java.util.List<DoctorComboDTO> doctors = docResp.getCode() == 200 ? docResp.getData() : new java.util.ArrayList<>();
     doctorComboIds.clear();
     java.util.List<String> doctorItems = new java.util.ArrayList<>();
     doctorItems.add("Select one");
-    for (String[] d : doctors) {
-        doctorComboIds.add(Long.parseLong(d[0]));
-        doctorItems.add(d[1]);
+    for (DoctorComboDTO d : doctors) {
+        doctorComboIds.add(d.id());
+        doctorItems.add(d.fullname());
     }
     cmbSelectDoctor.setModel(new DefaultComboBoxModel<>(doctorItems.toArray(new String[0])));
 
-    @SuppressWarnings("unchecked")
-    java.util.List<String> patients = (java.util.List<String>) comboController.getPatientsCombo().data;
+    Response<java.util.List<PatientComboDTO>> patResp = comboController.getPatientsCombo();
+    java.util.List<PatientComboDTO> patients = patResp.getCode() == 200 ? patResp.getData() : new java.util.ArrayList<>();
     patientComboIds.clear();
     java.util.List<String> patientItems = new java.util.ArrayList<>();
     patientItems.add("Select one");
-    for (String item : patients) {
-        String[] parts = item.split(" - ", 2);
-        patientComboIds.add(Long.parseLong(parts[0].trim()));
-        patientItems.add(parts.length > 1 ? parts[1] : item);
+    for (PatientComboDTO p : patients) {
+        patientComboIds.add(p.id());
+        patientItems.add(p.fullname());
     }
     cmbSelectPatient.setModel(new DefaultComboBoxModel<>(patientItems.toArray(new String[0])));
 }
@@ -126,12 +130,12 @@ public class AdminView extends javax.swing.JFrame {
         lblDocPasswordConfirm = new javax.swing.JLabel();
         cmbDocSpecialty = new javax.swing.JComboBox<>();
         btnRegisterDoctor = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
+        sepDoctorRegistration = new javax.swing.JSeparator();
         cmbSelectDoctor = new javax.swing.JComboBox<>();
         lblSelectDoctor = new javax.swing.JLabel();
         lblSelectPatient = new javax.swing.JLabel();
         cmbSelectPatient = new javax.swing.JComboBox<>();
-        jSeparator2 = new javax.swing.JSeparator();
+        sepPatientSelection = new javax.swing.JSeparator();
         btnLogout = new javax.swing.JButton();
         txtDocPassword = new javax.swing.JPasswordField();
         txtDocPasswordConfirm = new javax.swing.JPasswordField();
@@ -253,7 +257,7 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
 
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        sepDoctorRegistration.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         cmbSelectDoctor.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         cmbSelectDoctor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select one" }));
@@ -267,7 +271,7 @@ public class AdminView extends javax.swing.JFrame {
         cmbSelectPatient.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         cmbSelectPatient.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select one" }));
 
-        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        sepPatientSelection.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         btnLogout.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         btnLogout.setText("Logout");
@@ -277,9 +281,9 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
 
-        txtDocPassword.setText("jPasswordField1");
+        txtDocPassword.setText("");
 
-        txtDocPasswordConfirm.setText("jPasswordField2");
+        txtDocPasswordConfirm.setText("");
 
         javax.swing.GroupLayout pnlCardLayout = new javax.swing.GroupLayout(pnlCard);
         pnlCard.setLayout(pnlCardLayout);
@@ -347,7 +351,7 @@ public class AdminView extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnLogout)
                         .addGap(318, 318, 318)))
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sepDoctorRegistration, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(pnlCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlCardLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -363,13 +367,13 @@ public class AdminView extends javax.swing.JFrame {
             .addGroup(pnlCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCardLayout.createSequentialGroup()
                     .addContainerGap(707, Short.MAX_VALUE)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sepPatientSelection, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(523, 523, 523)))
         );
         pnlCardLayout.setVerticalGroup(
             pnlCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCardLayout.createSequentialGroup()
-                .addComponent(jSeparator1)
+                .addComponent(sepDoctorRegistration)
                 .addContainerGap())
             .addGroup(pnlCardLayout.createSequentialGroup()
                 .addGap(41, 41, 41)
@@ -430,7 +434,7 @@ public class AdminView extends javax.swing.JFrame {
             .addGroup(pnlCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pnlCardLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jSeparator2)
+                    .addComponent(sepPatientSelection)
                     .addContainerGap()))
         );
 
@@ -503,6 +507,8 @@ if (r.code == 200) {
     txtDocPasswordConfirm.setText("");
     txtDocLicenceNumber.setText("");
     txtDocOffice.setText("");
+    cmbDocSpecialty.setSelectedIndex(0);
+    loadCombos();
 }
     }//GEN-LAST:event_btnRegisterDoctorActionPerformed
 
@@ -557,8 +563,8 @@ if (r.code == 200) {
     private javax.swing.JComboBox<String> cmbDocSpecialty;
     private javax.swing.JComboBox<String> cmbSelectDoctor;
     private javax.swing.JComboBox<String> cmbSelectPatient;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator sepDoctorRegistration;
+    private javax.swing.JSeparator sepPatientSelection;
     private javax.swing.JLabel lblAdminTitle;
     private javax.swing.JLabel lblDocFirstname;
     private javax.swing.JLabel lblDocId;

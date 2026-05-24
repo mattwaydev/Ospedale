@@ -7,6 +7,7 @@ package com.uninorte.ospedale.controller;
 import com.uninorte.ospedale.controller.response.Response;
 import com.uninorte.ospedale.controller.response.ResponseFactory;
 import com.uninorte.ospedale.model.dto.DoctorComboDTO;
+import com.uninorte.ospedale.model.dto.PatientComboDTO;
 import com.uninorte.ospedale.model.repository.IAppointmentRepository;
 import com.uninorte.ospedale.model.repository.IDoctorRepository;
 import com.uninorte.ospedale.model.repository.IHospitalizationRepository;
@@ -42,36 +43,23 @@ public class ComboDataController {
         this.patientRepository = patientRepository;
     }
 
-    public Response<Object> getSpecialties() {
+    public Response<List<String>> getSpecialties() {
         List<String> specialties = new ArrayList<>();
         for (Specialty s : Specialty.values()) {
             specialties.add(s.name().replace("_", " & "));
         }
-        return ResponseFactory.ok("Specialties", specialties);
+        return ResponseFactory.ok("Especialidades", specialties);
     }
 
-    public Response<Object> getRoomTypes() {
+    public Response<List<String>> getRoomTypes() {
         List<String> roomTypes = new ArrayList<>();
         for (RoomType r : RoomType.values()) {
             roomTypes.add(r.name());
         }
-        return ResponseFactory.ok("Room types", roomTypes);
+        return ResponseFactory.ok("Tipos de habitación", roomTypes);
     }
 
-    public Response<Object> getDoctors() {
-        List<Doctor> doctors = doctorRepository.findAllDoctors();
-        List<String[]> result = new ArrayList<>();
-        for (Doctor d : doctors) {
-            result.add(new String[]{
-                String.valueOf(d.getId()),
-                d.getFirstname() + " " + d.getLastname(),
-                d.getSpecialty().name()
-            });
-        }
-        return ResponseFactory.ok("Doctors", result);
-    }
-
-    public List<DoctorComboDTO> getDoctorsCombo() {
+    public Response<List<DoctorComboDTO>> getDoctorsCombo() {
         List<Doctor> doctors = doctorRepository.findAllDoctors();
         List<DoctorComboDTO> result = new ArrayList<>();
         for (Doctor d : doctors) {
@@ -79,28 +67,10 @@ public class ComboDataController {
                     d.getFirstname() + " " + d.getLastname(),
                     d.getSpecialty().name()));
         }
-        return result;
+        return ResponseFactory.ok("Médicos", result);
     }
 
-    public Response<Object> getDoctorsBySpecialty(String specialty) {
-        Specialty spec;
-        try {
-            spec = Specialty.valueOf(specialty.toUpperCase().replace(" & ", "_"));
-        } catch (IllegalArgumentException e) {
-            return ResponseFactory.badRequest("Especialidad inválida");
-        }
-        List<Doctor> doctors = doctorRepository.findBySpecialty(spec);
-        List<String[]> result = new ArrayList<>();
-        for (Doctor d : doctors) {
-            result.add(new String[]{
-                String.valueOf(d.getId()),
-                d.getFirstname() + " " + d.getLastname()
-            });
-        }
-        return ResponseFactory.ok("Doctors by specialty", result);
-    }
-
-    public Response<Object> getAppointmentIdsByDoctorAndStatus(long doctorId, String statusName) {
+    public Response<List<String>> getAppointmentIdsByDoctorAndStatus(long doctorId, String statusName) {
         AppointmentStatus status;
         try {
             status = AppointmentStatus.valueOf(statusName.toUpperCase());
@@ -112,10 +82,10 @@ public class ComboDataController {
         for (Appointment a : appts) {
             ids.add(a.getId());
         }
-        return ResponseFactory.ok("Appointment IDs", ids);
+        return ResponseFactory.ok("IDs de citas del médico", ids);
     }
 
-    public Response<Object> getReschedulableForDoctor(long doctorId) {
+    public Response<List<String>> getReschedulableForDoctor(long doctorId) {
         List<Appointment> all = appointmentRepository.findByDoctorId(doctorId);
         List<String> ids = new ArrayList<>();
         for (Appointment a : all) {
@@ -124,10 +94,10 @@ public class ComboDataController {
                 ids.add(a.getId());
             }
         }
-        return ResponseFactory.ok("Reschedulable appointment IDs", ids);
+        return ResponseFactory.ok("IDs de citas reagendables", ids);
     }
 
-    public Response<Object> getHospitalizationIdsByStatus(String statusName) {
+    public Response<List<String>> getHospitalizationIdsByStatus(String statusName) {
         HospitalizationStatus status;
         try {
             status = HospitalizationStatus.valueOf(statusName.toUpperCase());
@@ -139,19 +109,20 @@ public class ComboDataController {
         for (Hospitalization h : hosps) {
             ids.add(h.getId());
         }
-        return ResponseFactory.ok("Hospitalization IDs", ids);
+        return ResponseFactory.ok("IDs de hospitalizaciones", ids);
     }
 
-    public Response<Object> getPatientsCombo() {
+    public Response<List<PatientComboDTO>> getPatientsCombo() {
         List<Patient> patients = patientRepository.findAllPatients();
-        List<String> items = new ArrayList<>();
+        List<PatientComboDTO> items = new ArrayList<>();
         for (Patient p : patients) {
-            items.add(p.getId() + " - " + p.getFirstname() + " " + p.getLastname());
+            items.add(new PatientComboDTO(p.getId(),
+                    p.getFirstname() + " " + p.getLastname()));
         }
-        return ResponseFactory.ok("Patients combo", items);
+        return ResponseFactory.ok("Pacientes", items);
     }
 
-    public List<String> getAppointmentIdsByPatientAndCancelable(long pid) {
+    public Response<List<String>> getAppointmentIdsByPatientAndCancelable(long pid) {
         List<Appointment> appts = appointmentRepository.findByPatientId(pid);
         List<String> ids = new ArrayList<>();
         for (Appointment a : appts) {
@@ -160,6 +131,6 @@ public class ComboDataController {
                 ids.add(a.getId());
             }
         }
-        return ids;
+        return ResponseFactory.ok("IDs de citas cancelables", ids);
     }
 }

@@ -5,13 +5,13 @@
 package com.uninorte.ospedale.controller;
 import com.uninorte.ospedale.controller.response.Response;
 import com.uninorte.ospedale.controller.response.ResponseFactory;
+import com.uninorte.ospedale.controller.validator.AppointmentValidator;
 import com.uninorte.ospedale.model.repository.IAppointmentRepository;
 import com.uninorte.ospedale.model.repository.IDoctorRepository;
 import com.uninorte.ospedale.model.repository.IPatientRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.Optional;
 import com.uninorte.ospedale.model.entity.Appointment;
 import com.uninorte.ospedale.model.enums.AppointmentStatus;
@@ -62,16 +62,13 @@ public class AppointmentController {
         if (patientFound.isEmpty())
             return ResponseFactory.notFound("Paciente no encontrado");
 
-        LocalDate appointmentDate;
-        try {
-            appointmentDate = LocalDate.parse(date);
-        } catch (DateTimeParseException e) {
-            return ResponseFactory.badRequest("Formato de fecha inválido, use AAAA-MM-DD");
-        }
+        Optional<String> dateError = AppointmentValidator.validateDate(date);
+        if (dateError.isPresent()) return ResponseFactory.badRequest(dateError.get());
 
-        if (!time.matches("^([01]\\d|2[0-3]):(00|15|30|45)$"))
-            return ResponseFactory.badRequest("Hora inválida, use HH:mm con minutos 00, 15, 30 o 45");
+        Optional<String> timeError = AppointmentValidator.validateTime(time);
+        if (timeError.isPresent()) return ResponseFactory.badRequest(timeError.get());
 
+        LocalDate appointmentDate = LocalDate.parse(date);
         LocalTime appointmentTime = LocalTime.parse(time);
         LocalDateTime slot = LocalDateTime.of(appointmentDate, appointmentTime);
 
@@ -109,6 +106,8 @@ public class AppointmentController {
         String id = appointmentRepository.nextIdForPatient(patientId);
         Appointment appointment = new Appointment(id, patient, doctor, specialty, slot, reason, type);
         appointmentRepository.save(appointment);
+        patient.addAppointment(appointment);
+        doctor.addAppointment(appointment);
         return ResponseFactory.ok("Cita solicitada exitosamente", id);
     }
 
@@ -172,10 +171,18 @@ public class AppointmentController {
         Appointment appointment = found.get();
         if (appointment.getDoctor().getId() != doctorId)
             return ResponseFactory.unauthorized("El médico no está asignado a esta cita");
-        if (!newTime.matches("^([01]\\d|2[0-3]):(00|15|30|45)$"))
-            return ResponseFactory.badRequest("Hora inválida, use HH:mm con minutos 00, 15, 30 o 45");
+        if (appointment.getStatus() == AppointmentStatus.COMPLETED
+                || appointment.getStatus() == AppointmentStatus.CANCELED)
+            return ResponseFactory.badRequest("La cita ya está finalizada y no se puede reagendar");
+
+        Optional<String> timeError = AppointmentValidator.validateTime(newTime);
+        if (timeError.isPresent()) return ResponseFactory.badRequest(timeError.get());
+
         LocalTime time = LocalTime.parse(newTime);
         LocalDateTime newSlot = LocalDateTime.of(appointment.getDatetime().toLocalDate(), time);
+        if (!appointmentRepository.doctorIsAvailableAt(doctorId, newSlot))
+            return ResponseFactory.conflict("El médico no está disponible a esa hora");
+
         appointment.setDatetime(newSlot);
         appointment.setReason(appointment.getReason() + " | Reagendada: " + reason);
         return ResponseFactory.ok("Cita reagendada", null);

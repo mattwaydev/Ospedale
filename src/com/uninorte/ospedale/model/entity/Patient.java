@@ -20,7 +20,7 @@ public class Patient extends User {
     private long phone;
     private String address;
     private ArrayList<Appointment> appointments;
-    private Hospitalization hospitalization;
+    private ArrayList<Hospitalization> hospitalizations;
 
     public void setEmail(String email) {
         this.email = email;
@@ -42,8 +42,8 @@ public class Patient extends User {
         this.address = address;
     }
 
-    public void setHospitalization(Hospitalization hospitalization) {
-        this.hospitalization = hospitalization;
+    public void addHospitalization(Hospitalization hospitalization) {
+        this.hospitalizations.add(hospitalization);
     }
 
     public String getEmail() {
@@ -66,16 +66,14 @@ public class Patient extends User {
         return address;
     }
 
-    public Hospitalization getHospitalization() {
-        return hospitalization;
+    public ArrayList<Hospitalization> getHospitalizations() {
+        return hospitalizations;
     }
-    
-    
 
     public ArrayList<Appointment> getAppointments() {
         return appointments;
     }
-    
+
     public void addAppointment(Appointment a) {
         this.appointments.add(a);
     }
@@ -88,6 +86,7 @@ public class Patient extends User {
         this.phone = phone;
         this.address = address;
         this.appointments = new ArrayList<>();
+        this.hospitalizations = new ArrayList<>();
     }
     
 }

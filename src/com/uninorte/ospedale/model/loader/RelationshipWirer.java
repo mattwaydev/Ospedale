@@ -19,7 +19,7 @@ public class RelationshipWirer {
     }
 
     public void wire(Hospitalization h) {
-        h.getPatient().setHospitalization(h);
+        h.getPatient().addHospitalization(h);
         h.getDoctor().addHospitalization(h);
     }
 }

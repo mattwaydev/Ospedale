@@ -24,17 +24,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panelRound1" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlRoot" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panelRound1" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlRoot" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="packagee.PanelRound" name="panelRound1">
+    <Container class="packagee.PanelRound" name="pnlRoot">
       <Properties>
         <Property name="radius" type="int" value="50"/>
       </Properties>
@@ -42,28 +42,28 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="panelRound2" max="32767" attributes="0"/>
-              <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
+              <Component id="pnlTopbar" max="32767" attributes="0"/>
+              <Component id="tabsPatient" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="panelRound2" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlTopbar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTabbedPane1" max="32767" attributes="0"/>
+                  <Component id="tabsPatient" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="packagee.PanelRound" name="panelRound2">
+        <Container class="packagee.PanelRound" name="pnlTopbar">
           <Properties>
             <Property name="radius" type="int" value="50"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="panelRound2MouseDragged"/>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelRound2MousePressed"/>
+            <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="pnlTopbarMouseDragged"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnlTopbarMousePressed"/>
           </Events>
 
           <Layout>
@@ -71,7 +71,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPatientViewTitle" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       <Component id="btnBack" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
@@ -91,7 +91,7 @@
                       <Component id="btnBack" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jLabel1" alignment="1" max="32767" attributes="0"/>
+                  <Component id="lblPatientViewTitle" alignment="1" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -114,7 +114,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCloseActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel1">
+            <Component class="javax.swing.JLabel" name="lblPatientViewTitle">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Yu Gothic UI" size="14" style="0"/>
@@ -135,11 +135,11 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+        <Container class="javax.swing.JTabbedPane" name="tabsPatient">
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="jPanel3">
+            <Container class="javax.swing.JPanel" name="pnlAppointmentHistoryTab">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Appointment history">
@@ -153,7 +153,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                          <Component id="jScrollPane3" min="-2" pref="1167" max="-2" attributes="0"/>
+                          <Component id="scrPatientAppointments" min="-2" pref="1167" max="-2" attributes="0"/>
                           <EmptySpace pref="51" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -169,7 +169,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                          <Component id="jScrollPane3" min="-2" max="-2" attributes="0"/>
+                          <Component id="scrPatientAppointments" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnRefreshAppointments" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -181,7 +181,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+                <Container class="javax.swing.JScrollPane" name="scrPatientAppointments">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
@@ -229,7 +229,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel1">
+            <Container class="javax.swing.JPanel" name="pnlProfileTab">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Modify info">
@@ -243,19 +243,19 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
-                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblProfileFirstname" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="txtProfileFirstname" min="-2" pref="109" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblProfileLastname" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblProfilePhone" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="txtProfilePhone" min="-2" pref="109" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblProfileAddress" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="txtProfileAddress" min="-2" pref="109" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -263,15 +263,15 @@
                               <Group type="102" attributes="0">
                                   <Component id="txtProfileLastname" min="-2" pref="109" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblProfileBirthdate" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="txtProfileBirthdate" min="-2" pref="109" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblProfileGender" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="cmbProfileGender" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblProfileEmail" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="18" max="32767" attributes="0"/>
                                   <Component id="txtProfileEmail" min="-2" pref="109" max="-2" attributes="0"/>
                               </Group>
@@ -289,10 +289,10 @@
                                   <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                                   <Component id="txtProfilePasswordConfirm" min="-2" pref="109" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblProfilePasswordConfirm" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
-                                  <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblProfilePassword" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
@@ -301,7 +301,7 @@
                                           <Component id="txtProfileUsername" alignment="0" min="-2" pref="109" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                                              <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblProfileUsername" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Component id="txtProfilePassword" min="-2" pref="109" max="-2" attributes="0"/>
@@ -317,34 +317,34 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblProfileFirstname" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtProfileFirstname" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblProfileLastname" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtProfileLastname" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblProfileBirthdate" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtProfileBirthdate" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblProfileGender" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblProfileEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtProfileEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="cmbProfileGender" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblProfilePhone" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtProfilePhone" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblProfileAddress" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtProfileAddress" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                          <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblProfileUsername" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="txtProfileUsername" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblProfilePassword" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="txtProfilePassword" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblProfilePasswordConfirm" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="txtProfilePasswordConfirm" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
@@ -355,7 +355,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel2">
+                <Component class="javax.swing.JLabel" name="lblProfileFirstname">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -370,7 +370,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel3">
+                <Component class="javax.swing.JLabel" name="lblProfileLastname">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -385,7 +385,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel5">
+                <Component class="javax.swing.JLabel" name="lblProfileBirthdate">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -400,7 +400,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel6">
+                <Component class="javax.swing.JLabel" name="lblProfileGender">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -408,7 +408,7 @@
                     <Property name="text" type="java.lang.String" value="Gender"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel7">
+                <Component class="javax.swing.JLabel" name="lblProfileEmail">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -423,7 +423,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel8">
+                <Component class="javax.swing.JLabel" name="lblProfilePhone">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -438,7 +438,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel9">
+                <Component class="javax.swing.JLabel" name="lblProfileAddress">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -460,7 +460,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel10">
+                <Component class="javax.swing.JLabel" name="lblProfilePassword">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -468,7 +468,7 @@
                     <Property name="text" type="java.lang.String" value="Password"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel11">
+                <Component class="javax.swing.JLabel" name="lblProfilePasswordConfirm">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -494,7 +494,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveProfileActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel12">
+                <Component class="javax.swing.JLabel" name="lblProfileUsername">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -528,7 +528,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="jPanel2">
+            <Container class="javax.swing.JPanel" name="pnlAppointmentRequestTab">
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
                   <JTabbedPaneConstraints tabName="Request/Cancel">
@@ -558,8 +558,8 @@
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="1" attributes="0">
-                                                  <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lblAppointmentTime" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="lblAppointmentDate" min="-2" max="-2" attributes="0"/>
                                                   <Component id="cmbAppointmentDoctor" alignment="1" min="-2" pref="137" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
@@ -569,11 +569,11 @@
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                                              <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblAppointmentReason" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                                              <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblAppointmentType" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
@@ -583,12 +583,12 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                                      <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblAppointmentSectionTitle" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane5" min="-2" pref="238" max="-2" attributes="0"/>
+                                  <Component id="scrCancelDetails" min="-2" pref="238" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
@@ -596,7 +596,7 @@
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                          <Component id="jSeparator1" min="-2" pref="17" max="-2" attributes="0"/>
+                          <Component id="sepAppointmentSection" min="-2" pref="17" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
@@ -606,19 +606,19 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jLabel19" alignment="1" max="32767" attributes="0"/>
-                                          <Component id="jScrollPane4" alignment="1" pref="0" max="32767" attributes="0"/>
-                                          <Component id="jLabel18" pref="246" max="32767" attributes="0"/>
-                                          <Component id="jLabel20" max="32767" attributes="0"/>
+                                          <Component id="lblHospReason" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="scrHospObservations" alignment="1" pref="0" max="32767" attributes="0"/>
+                                          <Component id="lblHospSectionTitle" pref="246" max="32767" attributes="0"/>
+                                          <Component id="lblHospDoctor" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel23" alignment="1" min="-2" pref="246" max="-2" attributes="0"/>
-                                          <Component id="jLabel21" alignment="1" min="-2" pref="238" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane1" alignment="1" min="-2" pref="246" max="-2" attributes="0"/>
-                                          <Component id="jLabel22" alignment="1" min="-2" pref="246" max="-2" attributes="0"/>
+                                          <Component id="lblHospObservations" alignment="1" min="-2" pref="246" max="-2" attributes="0"/>
+                                          <Component id="lblHospDate" alignment="1" min="-2" pref="238" max="-2" attributes="0"/>
+                                          <Component id="scrAppointmentReason" alignment="1" min="-2" pref="246" max="-2" attributes="0"/>
+                                          <Component id="lblHospRoomType" alignment="1" min="-2" pref="246" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -636,15 +636,15 @@
                               </Group>
                           </Group>
                           <EmptySpace pref="126" max="32767" attributes="0"/>
-                          <Component id="jSeparator2" min="-2" pref="17" max="-2" attributes="0"/>
+                          <Component id="sepCancelSection" min="-2" pref="17" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane2" alignment="1" min="-2" pref="238" max="-2" attributes="0"/>
+                              <Component id="scrHospReason" alignment="1" min="-2" pref="238" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                                          <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblCancelSectionTitle" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
@@ -654,12 +654,12 @@
                                           <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="1" attributes="0">
                                               <Component id="cmbCancelAppointmentId" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblCancelAppointmentId" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                                          <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblCancelObservations" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
@@ -671,33 +671,33 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
+                      <Component id="sepAppointmentSection" alignment="0" max="32767" attributes="0"/>
+                      <Component id="sepCancelSection" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblHospSectionTitle" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="13" max="32767" attributes="0"/>
-                                  <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblHospReason" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane4" min="-2" pref="85" max="-2" attributes="0"/>
+                                  <Component id="scrHospObservations" min="-2" pref="85" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblHospDoctor" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="cmbHospDoctor" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jLabel21" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblHospDate" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="txtHospDate" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                                  <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblHospRoomType" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="cmbHospRoomType" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblHospObservations" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane1" min="-2" pref="85" max="-2" attributes="0"/>
+                                  <Component id="scrAppointmentReason" min="-2" pref="85" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                   <Component id="btnCreateHospitalization" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -705,7 +705,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
-                                          <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblAppointmentSectionTitle" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="rdoBySpecialty" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -714,34 +714,34 @@
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="cmbAppointmentDoctor" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblAppointmentDate" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="txtAppointmentDate" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblAppointmentTime" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                           <Component id="txtAppointmentTime" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblAppointmentReason" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane5" min="-2" pref="85" max="-2" attributes="0"/>
+                                          <Component id="scrCancelDetails" min="-2" pref="85" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblCancelSectionTitle" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                                          <Component id="jLabel25" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblCancelAppointmentId" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="cmbCancelAppointmentId" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblCancelObservations" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane2" min="-2" pref="85" max="-2" attributes="0"/>
+                                          <Component id="scrHospReason" min="-2" pref="85" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                                           <Component id="btnCancelAppointment" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblAppointmentType" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="cmbAppointmentType" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
@@ -754,7 +754,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel13">
+                <Component class="javax.swing.JLabel" name="lblAppointmentSectionTitle">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -784,12 +784,12 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdoByDoctorActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JSeparator" name="jSeparator1">
+                <Component class="javax.swing.JSeparator" name="sepAppointmentSection">
                   <Properties>
                     <Property name="orientation" type="int" value="1"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel14">
+                <Component class="javax.swing.JLabel" name="lblAppointmentDate">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -811,7 +811,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel15">
+                <Component class="javax.swing.JLabel" name="lblAppointmentTime">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -819,7 +819,7 @@
                     <Property name="text" type="java.lang.String" value="Appointment time"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel16">
+                <Component class="javax.swing.JLabel" name="lblAppointmentType">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -827,7 +827,7 @@
                     <Property name="text" type="java.lang.String" value="Appointment type"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel17">
+                <Component class="javax.swing.JLabel" name="lblAppointmentReason">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -863,12 +863,12 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreateAppointmentActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JSeparator" name="jSeparator2">
+                <Component class="javax.swing.JSeparator" name="sepCancelSection">
                   <Properties>
                     <Property name="orientation" type="int" value="1"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel18">
+                <Component class="javax.swing.JLabel" name="lblHospSectionTitle">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -877,7 +877,7 @@
                     <Property name="text" type="java.lang.String" value="Request hospitalization"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel19">
+                <Component class="javax.swing.JLabel" name="lblHospReason">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -886,7 +886,7 @@
                     <Property name="text" type="java.lang.String" value="Hospitalization reason"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel20">
+                <Component class="javax.swing.JLabel" name="lblHospDoctor">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -917,7 +917,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel21">
+                <Component class="javax.swing.JLabel" name="lblHospDate">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -927,7 +927,7 @@
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel22">
+                <Component class="javax.swing.JLabel" name="lblHospRoomType">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -951,7 +951,7 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel23">
+                <Component class="javax.swing.JLabel" name="lblHospObservations">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -960,7 +960,7 @@
                     <Property name="text" type="java.lang.String" value="Observations"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+                <Container class="javax.swing.JScrollPane" name="scrAppointmentReason">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
@@ -989,7 +989,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCreateHospitalizationActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel24">
+                <Component class="javax.swing.JLabel" name="lblCancelSectionTitle">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -997,7 +997,7 @@
                     <Property name="text" type="java.lang.String" value="Cancel appointment"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel25">
+                <Component class="javax.swing.JLabel" name="lblCancelAppointmentId">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -1005,7 +1005,7 @@
                     <Property name="text" type="java.lang.String" value="ID appointment"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel26">
+                <Component class="javax.swing.JLabel" name="lblCancelObservations">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -1013,14 +1013,14 @@
                     <Property name="text" type="java.lang.String" value="Observations"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+                <Container class="javax.swing.JScrollPane" name="scrHospReason">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTextArea" name="jTextArea2">
+                    <Component class="javax.swing.JTextArea" name="txtCancelDetails">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -1042,7 +1042,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelAppointmentActionPerformed"/>
                   </Events>
                 </Component>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+                <Container class="javax.swing.JScrollPane" name="scrHospObservations">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>
@@ -1060,7 +1060,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JScrollPane" name="jScrollPane5">
+                <Container class="javax.swing.JScrollPane" name="scrCancelDetails">
                   <AuxValues>
                     <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
                   </AuxValues>

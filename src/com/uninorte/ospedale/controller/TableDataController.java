@@ -11,15 +11,12 @@ import com.uninorte.ospedale.model.dto.HospitalizationRowDTO;
 import com.uninorte.ospedale.model.dto.PrescriptionRowDTO;
 import com.uninorte.ospedale.model.repository.IAppointmentRepository;
 import com.uninorte.ospedale.model.repository.IHospitalizationRepository;
-import com.uninorte.ospedale.model.repository.IPatientRepository;
-import com.uninorte.ospedale.model.repository.IDoctorRepository;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import com.uninorte.ospedale.model.entity.Appointment;
-import com.uninorte.ospedale.model.entity.Doctor;
 import com.uninorte.ospedale.model.entity.Hospitalization;
-import com.uninorte.ospedale.model.entity.Patient;
 import com.uninorte.ospedale.model.entity.Prescription;
 import com.uninorte.ospedale.model.enums.AppointmentStatus;
 import com.uninorte.ospedale.model.enums.HospitalizationStatus;
@@ -31,40 +28,26 @@ import com.uninorte.ospedale.model.enums.HospitalizationStatus;
  */
 public class TableDataController {
 
-   private final IAppointmentRepository appointmentRepository;
-    private final IPatientRepository patientRepository;
-    private final IDoctorRepository doctorRepository;
+    private final IAppointmentRepository appointmentRepository;
     private final IHospitalizationRepository hospitalizationRepository;
 
     public TableDataController(IAppointmentRepository appointmentRepository,
-            IPatientRepository patientRepository,
-            IDoctorRepository doctorRepository,
             IHospitalizationRepository hospitalizationRepository) {
         this.appointmentRepository = appointmentRepository;
-        this.patientRepository = patientRepository;
-        this.doctorRepository = doctorRepository;
         this.hospitalizationRepository = hospitalizationRepository;
     }
 
-    public List<AppointmentRowDTO> getPatientAppointments(long patientId) {
+    public Response<List<AppointmentRowDTO>> getPatientAppointments(long patientId) {
         List<Appointment> appointments = appointmentRepository.findByPatientId(patientId);
         appointments.sort(Comparator.comparing(Appointment::getDatetime).reversed());
         List<AppointmentRowDTO> rows = new ArrayList<>();
         for (Appointment a : appointments) {
-            rows.add(new AppointmentRowDTO(
-                    a.getId(),
-                    a.getDatetime().toString(),
-                    a.getDoctor().getFirstname() + " " + a.getDoctor().getLastname(),
-                    a.getPatient().getFirstname() + " " + a.getPatient().getLastname(),
-                    a.getSpecialty().name(),
-                    a.isType() ? "In-person" : "Remote",
-                    a.getStatus().name()
-            ));
+            rows.add(toRow(a));
         }
-        return rows;
+        return ResponseFactory.ok("Citas del paciente", rows);
     }
 
-    public Response<Object> getDoctorAppointments(long doctorId, boolean onlyPending) {
+    public Response<List<AppointmentRowDTO>> getDoctorAppointments(long doctorId, boolean onlyPending) {
         List<Appointment> appointments;
         if (onlyPending) {
             appointments = appointmentRepository.findByDoctorIdAndStatus(doctorId, AppointmentStatus.PENDING);
@@ -72,83 +55,35 @@ public class TableDataController {
             appointments = appointmentRepository.findByDoctorId(doctorId);
         }
         appointments.sort(Comparator.comparing(Appointment::getDatetime).reversed());
-        List<String[]> rows = new ArrayList<>();
+        List<AppointmentRowDTO> rows = new ArrayList<>();
         for (Appointment a : appointments) {
-            rows.add(new String[]{
-                a.getId(),
-                a.getDatetime().toString(),
-                a.getPatient().getFirstname() + " " + a.getPatient().getLastname(),
-                a.getSpecialty().name(),
-                a.isType() ? "In-person" : "Remote",
-                a.getStatus().name()
-            });
+            rows.add(toRow(a));
         }
-        return ResponseFactory.ok("Doctor appointments", rows);
+        return ResponseFactory.ok("Citas del médico", rows);
     }
 
-    public Response<Object> getAllPatients() {
-        List<Patient> patients = patientRepository.findAllPatients();
-        List<String[]> rows = new ArrayList<>();
-        for (Patient p : patients) {
-            rows.add(new String[]{
-                String.valueOf(p.getId()),
-                p.getFirstname(),
-                p.getLastname(),
-                p.getUsername()
-            });
-        }
-        return ResponseFactory.ok("All patients", rows);
-    }
-
-    public Response<Object> getAllDoctors() {
-        List<Doctor> doctors = doctorRepository.findAllDoctors();
-        List<String[]> rows = new ArrayList<>();
-        for (Doctor d : doctors) {
-            rows.add(new String[]{
-                String.valueOf(d.getId()),
-                d.getFirstname(),
-                d.getLastname(),
-                d.getSpecialty().name()
-            });
-        }
-        return ResponseFactory.ok("All doctors", rows);
-    }
-
-    public List<HospitalizationRowDTO> getHospitalizationsByPatient(long pid) {
+    public Response<List<HospitalizationRowDTO>> getHospitalizationsByPatient(long pid) {
         List<Hospitalization> list = hospitalizationRepository.findByPatientId(pid);
         List<HospitalizationRowDTO> rows = new ArrayList<>();
         for (Hospitalization h : list) {
-            rows.add(new HospitalizationRowDTO(
-                    h.getId(),
-                    h.getDate().toString(),
-                    h.getPatient().getFirstname() + " " + h.getPatient().getLastname(),
-                    h.getDoctor().getFirstname() + " " + h.getDoctor().getLastname(),
-                    h.getRoomType().name(),
-                    h.getStatus().name()
-            ));
+            rows.add(toRow(h));
         }
-        return rows;
+        return ResponseFactory.ok("Hospitalizaciones del paciente", rows);
     }
 
-    public List<HospitalizationRowDTO> getHospitalizationRequests() {
+    public Response<List<HospitalizationRowDTO>> getHospitalizationRequests() {
         List<Hospitalization> list = hospitalizationRepository.findByStatus(HospitalizationStatus.REQUESTED);
         List<HospitalizationRowDTO> rows = new ArrayList<>();
         for (Hospitalization h : list) {
-            rows.add(new HospitalizationRowDTO(
-                    h.getId(),
-                    h.getDate().toString(),
-                    h.getPatient().getFirstname() + " " + h.getPatient().getLastname(),
-                    h.getDoctor().getFirstname() + " " + h.getDoctor().getLastname(),
-                    h.getRoomType().name(),
-                    h.getStatus().name()
-            ));
+            rows.add(toRow(h));
         }
-        return rows;
+        return ResponseFactory.ok("Solicitudes de hospitalización", rows);
     }
 
-    public List<PrescriptionRowDTO> getPrescriptions(String apptId) {
-        java.util.Optional<Appointment> found = appointmentRepository.findById(apptId);
-        if (found.isEmpty()) return new ArrayList<>();
+    public Response<List<PrescriptionRowDTO>> getPrescriptions(String apptId) {
+        Optional<Appointment> found = appointmentRepository.findById(apptId);
+        if (found.isEmpty())
+            return ResponseFactory.notFound("Cita no encontrada");
         List<PrescriptionRowDTO> rows = new ArrayList<>();
         for (Prescription p : found.get().getPrescriptions()) {
             rows.add(new PrescriptionRowDTO(
@@ -160,6 +95,29 @@ public class TableDataController {
                     String.valueOf(p.getFrecuency())
             ));
         }
-        return rows;
+        return ResponseFactory.ok("Recetas de la cita", rows);
+    }
+
+    private AppointmentRowDTO toRow(Appointment a) {
+        return new AppointmentRowDTO(
+                a.getId(),
+                a.getDatetime().toString(),
+                a.getDoctor().getFirstname() + " " + a.getDoctor().getLastname(),
+                a.getPatient().getFirstname() + " " + a.getPatient().getLastname(),
+                a.getSpecialty().name(),
+                a.isType() ? "In-person" : "Remote",
+                a.getStatus().name()
+        );
+    }
+
+    private HospitalizationRowDTO toRow(Hospitalization h) {
+        return new HospitalizationRowDTO(
+                h.getId(),
+                h.getDate().toString(),
+                h.getPatient().getFirstname() + " " + h.getPatient().getLastname(),
+                h.getDoctor().getFirstname() + " " + h.getDoctor().getLastname(),
+                h.getRoomType().name(),
+                h.getStatus().name()
+        );
     }
 }

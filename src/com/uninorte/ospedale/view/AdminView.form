@@ -202,7 +202,7 @@
                               <EmptySpace min="-2" pref="318" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jSeparator1" min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="sepDoctorRegistration" min="-2" pref="50" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -224,7 +224,7 @@
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace pref="707" max="32767" attributes="0"/>
-                          <Component id="jSeparator2" min="-2" pref="50" max="-2" attributes="0"/>
+                          <Component id="sepPatientSelection" min="-2" pref="50" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="523" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -233,7 +233,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jSeparator1" max="32767" attributes="0"/>
+                      <Component id="sepDoctorRegistration" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -308,7 +308,7 @@
                   <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jSeparator2" max="32767" attributes="0"/>
+                          <Component id="sepPatientSelection" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -489,7 +489,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegisterDoctorActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JSeparator" name="jSeparator1">
+            <Component class="javax.swing.JSeparator" name="sepDoctorRegistration">
               <Properties>
                 <Property name="orientation" type="int" value="1"/>
               </Properties>
@@ -540,7 +540,7 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JSeparator" name="jSeparator2">
+            <Component class="javax.swing.JSeparator" name="sepPatientSelection">
               <Properties>
                 <Property name="orientation" type="int" value="1"/>
               </Properties>
@@ -558,12 +558,12 @@
             </Component>
             <Component class="javax.swing.JPasswordField" name="txtDocPassword">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jPasswordField1"/>
+                <Property name="text" type="java.lang.String" value=""/>
               </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="txtDocPasswordConfirm">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jPasswordField2"/>
+                <Property name="text" type="java.lang.String" value=""/>
               </Properties>
             </Component>
           </SubComponents>

@@ -6,12 +6,13 @@ package com.uninorte.ospedale.controller;
 
 import com.uninorte.ospedale.controller.response.Response;
 import com.uninorte.ospedale.controller.response.ResponseFactory;
+import com.uninorte.ospedale.controller.validator.AppointmentValidator;
+import com.uninorte.ospedale.controller.validator.HospitalizationValidator;
 import com.uninorte.ospedale.model.repository.IAppointmentRepository;
 import com.uninorte.ospedale.model.repository.IDoctorRepository;
 import com.uninorte.ospedale.model.repository.IHospitalizationRepository;
 import com.uninorte.ospedale.model.repository.IPatientRepository;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.Optional;
 import com.uninorte.ospedale.model.entity.Appointment;
 import com.uninorte.ospedale.model.entity.Doctor;
@@ -60,25 +61,22 @@ public class HospitalizationController {
         if (doctorFound.isEmpty())
             return ResponseFactory.notFound("Médico no encontrado");
 
-        LocalDate admissionDate;
-        try {
-            admissionDate = LocalDate.parse(date);
-        } catch (DateTimeParseException e) {
-            return ResponseFactory.badRequest("Formato de fecha inválido, use AAAA-MM-DD");
-        }
+        Optional<String> dateError = AppointmentValidator.validateDate(date);
+        if (dateError.isPresent()) return ResponseFactory.badRequest(dateError.get());
 
-        RoomType room;
-        try {
-            room = RoomType.valueOf(roomType.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return ResponseFactory.badRequest("Tipo de habitación inválido");
-        }
+        Optional<String> roomError = HospitalizationValidator.validateRoomType(roomType);
+        if (roomError.isPresent()) return ResponseFactory.badRequest(roomError.get());
+
+        LocalDate admissionDate = LocalDate.parse(date);
+        RoomType room = RoomType.valueOf(roomType.toUpperCase());
 
         Patient patient = (Patient) patientFound.get();
         Doctor doctor = (Doctor) doctorFound.get();
         String id = hospitalizationRepository.nextIdForPatient(patientId);
         Hospitalization hosp = new Hospitalization(id, patient, doctor, admissionDate, reason, room, observations);
         hospitalizationRepository.save(hosp);
+        patient.addHospitalization(hosp);
+        doctor.addHospitalization(hosp);
         return ResponseFactory.ok("Hospitalización solicitada exitosamente", id);
     }
 
@@ -94,7 +92,14 @@ public class HospitalizationController {
     }
 
     public Response<Object> deny(String hospitalizationId, long doctorId) {
-        return doCancel(hospitalizationId);
+        Optional<Hospitalization> found = hospitalizationRepository.findById(hospitalizationId);
+        if (found.isEmpty())
+            return ResponseFactory.notFound("Hospitalización no encontrada");
+        Hospitalization hosp = found.get();
+        if (hosp.getStatus() != HospitalizationStatus.REQUESTED)
+            return ResponseFactory.badRequest("Solo se puede denegar una hospitalización en estado REQUESTED");
+        hosp.setStatus(HospitalizationStatus.CANCELED);
+        return ResponseFactory.ok("Hospitalización denegada", null);
     }
 
     public Response<Object> cancel(String hospId, long actorId) {
@@ -132,19 +137,19 @@ public class HospitalizationController {
         if (appointment.getDoctor().getId() != doctorId)
             return ResponseFactory.unauthorized("El médico no está asignado a esta cita");
 
-        LocalDate admissionDate;
-        try {
-            admissionDate = LocalDate.parse(date);
-        } catch (DateTimeParseException e) {
-            return ResponseFactory.badRequest("Formato de fecha inválido, use AAAA-MM-DD");
-        }
+        // Solo se puede derivar a hospitalización desde una cita activa
+        if (appointment.getStatus() == AppointmentStatus.COMPLETED
+                || appointment.getStatus() == AppointmentStatus.CANCELED)
+            return ResponseFactory.badRequest("La cita ya está finalizada y no se puede derivar");
 
-        RoomType room;
-        try {
-            room = RoomType.valueOf(roomType.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            return ResponseFactory.badRequest("Tipo de habitación inválido");
-        }
+        Optional<String> dateError = AppointmentValidator.validateDate(date);
+        if (dateError.isPresent()) return ResponseFactory.badRequest(dateError.get());
+
+        Optional<String> roomError = HospitalizationValidator.validateRoomType(roomType);
+        if (roomError.isPresent()) return ResponseFactory.badRequest(roomError.get());
+
+        LocalDate admissionDate = LocalDate.parse(date);
+        RoomType room = RoomType.valueOf(roomType.toUpperCase());
 
         appointment.setStatus(AppointmentStatus.COMPLETED);
         Patient patient = appointment.getPatient();
@@ -152,6 +157,8 @@ public class HospitalizationController {
         String id = hospitalizationRepository.nextIdForPatient(patient.getId());
         Hospitalization hosp = new Hospitalization(id, patient, doctor, admissionDate, reason, room, observations, HospitalizationStatus.ONGOING);
         hospitalizationRepository.save(hosp);
+        patient.addHospitalization(hosp);
+        doctor.addHospitalization(hosp);
         return ResponseFactory.ok("Hospitalización creada desde cita", id);
     }
 }

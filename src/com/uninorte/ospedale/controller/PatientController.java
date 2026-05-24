@@ -128,6 +128,9 @@ public class PatientController {
         if (found.isEmpty())
             return ResponseFactory.notFound("Paciente no encontrado");
 
+        Optional<String> usernameError = UserValidator.validateUsername(username);
+        if (usernameError.isPresent()) return ResponseFactory.badRequest(usernameError.get());
+
         Optional<String> passwordError = UserValidator.validatePasswordMatch(password, confirmPassword);
         if (passwordError.isPresent()) return ResponseFactory.badRequest(passwordError.get());
 
@@ -137,6 +140,12 @@ public class PatientController {
         Optional<String> emailError = UserValidator.validateEmail(email);
         if (emailError.isPresent()) return ResponseFactory.badRequest(emailError.get());
 
+        Patient patient = (Patient) found.get();
+        // unicidad de username: solo chequea si el username cambió
+        if (!username.equals(patient.getUsername())
+                && patientRepository.existsByUsername(username))
+            return ResponseFactory.conflict("El nombre de usuario ya existe");
+
         LocalDate birth;
         try {
             birth = LocalDate.parse(birthdate);
@@ -144,7 +153,6 @@ public class PatientController {
             return ResponseFactory.badRequest("Fecha inválida, use AAAA-MM-DD");
         }
 
-        Patient patient = (Patient) found.get();
         patient.setUsername(username);
         patient.setFirstname(firstname);
         patient.setLastname(lastname);
@@ -154,6 +162,7 @@ public class PatientController {
         patient.setGender(gender);
         patient.setPhone(Long.parseLong(phone));
         patient.setAddress(address);
+        patientRepository.save(patient);
         return ResponseFactory.ok("Paciente actualizado exitosamente", null);
     }
 }
