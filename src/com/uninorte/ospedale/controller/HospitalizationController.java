@@ -88,6 +88,7 @@ public class HospitalizationController {
         if (hosp.getStatus() != HospitalizationStatus.REQUESTED)
             return ResponseFactory.badRequest("La hospitalización no está en estado REQUESTED");
         hosp.setStatus(HospitalizationStatus.ONGOING);
+        hospitalizationRepository.save(hosp);
         return ResponseFactory.ok("Hospitalización aprobada", null);
     }
 
@@ -99,6 +100,7 @@ public class HospitalizationController {
         if (hosp.getStatus() != HospitalizationStatus.REQUESTED)
             return ResponseFactory.badRequest("Solo se puede denegar una hospitalización en estado REQUESTED");
         hosp.setStatus(HospitalizationStatus.CANCELED);
+        hospitalizationRepository.save(hosp);
         return ResponseFactory.ok("Hospitalización denegada", null);
     }
 
@@ -115,6 +117,7 @@ public class HospitalizationController {
             return ResponseFactory.badRequest("La hospitalización ya está cancelada");
         if (hosp.getStatus() == HospitalizationStatus.ONGOING || hosp.getStatus() == HospitalizationStatus.REQUESTED) {
             hosp.setStatus(HospitalizationStatus.CANCELED);
+            hospitalizationRepository.save(hosp);
             return ResponseFactory.ok("Hospitalización cancelada", null);
         }
         return ResponseFactory.badRequest("La hospitalización no se puede cancelar en su estado actual");

@@ -6,6 +6,9 @@ package com.uninorte.ospedale.model.storage;
 
 import com.uninorte.ospedale.model.entity.Hospitalization;
 import com.uninorte.ospedale.model.enums.HospitalizationStatus;
+import com.uninorte.ospedale.model.observer.EntityEvent;
+import com.uninorte.ospedale.model.observer.EventType;
+import com.uninorte.ospedale.model.observer.Observer;
 import com.uninorte.ospedale.model.repository.IHospitalizationRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +24,20 @@ public class InMemoryHospitalizationRepository implements IHospitalizationReposi
 
     private final Map<String, Hospitalization> byId = new HashMap<>();
     private final Map<Long, Integer> counterByPatient = new HashMap<>();
+    private final List<Observer<EntityEvent>> observers = new ArrayList<>();
+
+    @Override
+    public void subscribe(Observer<EntityEvent> observer) {
+        if (observer != null && !observers.contains(observer)) {
+            observers.add(observer);
+        }
+    }
+
+    private void notifyObservers(EntityEvent event) {
+        for (Observer<EntityEvent> obs : observers) {
+            obs.onNotify(event);
+        }
+    }
 
     @Override
     public Optional<Hospitalization> findById(String id) {
@@ -58,13 +75,17 @@ public class InMemoryHospitalizationRepository implements IHospitalizationReposi
 
     @Override
     public void save(Hospitalization h) {
+        boolean isNew = !byId.containsKey(h.getId());
         byId.put(h.getId(), h);
+        notifyObservers(new EntityEvent(isNew ? EventType.CREATED : EventType.UPDATED, h.getId()));
     }
 
     @Override
     public void save(Hospitalization h, HospitalizationStatus initialStatus) {
         h.setStatus(initialStatus);
+        boolean isNew = !byId.containsKey(h.getId());
         byId.put(h.getId(), h);
+        notifyObservers(new EntityEvent(isNew ? EventType.CREATED : EventType.UPDATED, h.getId()));
     }
 
     @Override

@@ -67,7 +67,9 @@ ViewNavigator navigator = new ViewNavigator(
     appointmentController,
     hospitalizationController,
     tableController,
-    comboController
+    comboController,
+    apptRepo,
+    hospRepo
 );
         EventQueue.invokeLater(() -> navigator.showLogin());
     }

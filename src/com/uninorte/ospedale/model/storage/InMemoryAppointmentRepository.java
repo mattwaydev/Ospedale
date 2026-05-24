@@ -6,6 +6,9 @@ package com.uninorte.ospedale.model.storage;
 
 import com.uninorte.ospedale.model.entity.Appointment;
 import com.uninorte.ospedale.model.enums.AppointmentStatus;
+import com.uninorte.ospedale.model.observer.EntityEvent;
+import com.uninorte.ospedale.model.observer.EventType;
+import com.uninorte.ospedale.model.observer.Observer;
 import com.uninorte.ospedale.model.repository.IAppointmentRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,6 +25,20 @@ public class InMemoryAppointmentRepository implements IAppointmentRepository {
 
     private final Map<String, Appointment> byId = new HashMap<>();
     private final Map<Long, Integer> counterByPatient = new HashMap<>();
+    private final List<Observer<EntityEvent>> observers = new ArrayList<>();
+
+    @Override
+    public void subscribe(Observer<EntityEvent> observer) {
+        if (observer != null && !observers.contains(observer)) {
+            observers.add(observer);
+        }
+    }
+
+    private void notifyObservers(EntityEvent event) {
+        for (Observer<EntityEvent> obs : observers) {
+            obs.onNotify(event);
+        }
+    }
 
     @Override
     public Optional<Appointment> findById(String id) {
@@ -82,7 +99,9 @@ public class InMemoryAppointmentRepository implements IAppointmentRepository {
 
     @Override
     public void save(Appointment a) {
+        boolean isNew = !byId.containsKey(a.getId());
         byId.put(a.getId(), a);
+        notifyObservers(new EntityEvent(isNew ? EventType.CREATED : EventType.UPDATED, a.getId()));
     }
 
     @Override

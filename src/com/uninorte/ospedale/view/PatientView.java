@@ -16,6 +16,8 @@ import com.uninorte.ospedale.model.dto.DoctorComboDTO;
 import com.uninorte.ospedale.model.dto.HospitalizationRequestDTO;
 import com.uninorte.ospedale.model.dto.PatientFormDTO;
 import com.uninorte.ospedale.model.dto.UserSessionDTO;
+import com.uninorte.ospedale.model.observer.EntityEvent;
+import com.uninorte.ospedale.model.observer.Observer;
 import com.uninorte.ospedale.view.navigation.ViewNavigator;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
  * @author jjlora
  * @author edangulo
  */
-public class PatientView extends javax.swing.JFrame {
+public class PatientView extends javax.swing.JFrame implements Observer<EntityEvent> {
 
     private int x, y;
 
@@ -139,6 +141,12 @@ public class PatientView extends javax.swing.JFrame {
         for (AppointmentRowDTO r : rows) {
             model.addRow(new Object[]{r.id(), r.datetime(), r.doctorFullname(), r.specialty(), r.type(), r.status()});
         }
+    }
+
+    @Override
+    public void onNotify(EntityEvent event) {
+        if (!isDisplayable()) return;
+        javax.swing.SwingUtilities.invokeLater(this::refreshAppointmentsTable);
     }
 
     private void refreshCancelCombo() {

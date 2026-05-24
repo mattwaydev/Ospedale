@@ -12,6 +12,8 @@ import com.uninorte.ospedale.controller.HospitalizationController;
 import com.uninorte.ospedale.controller.TableDataController;
 import com.uninorte.ospedale.controller.ComboDataController;
 import com.uninorte.ospedale.model.dto.UserSessionDTO;
+import com.uninorte.ospedale.model.repository.IAppointmentRepository;
+import com.uninorte.ospedale.model.repository.IHospitalizationRepository;
 import com.uninorte.ospedale.view.AdminView;
 import com.uninorte.ospedale.view.DoctorView;
 import com.uninorte.ospedale.view.LoginView;
@@ -27,6 +29,8 @@ public class ViewNavigator {
     private final HospitalizationController hospitalizationController;
     private final TableDataController tableController;
     private final ComboDataController comboController;
+    private final IAppointmentRepository apptRepo;
+    private final IHospitalizationRepository hospRepo;
 
     private JFrame currentView;
     private UserSessionDTO currentSession;
@@ -38,7 +42,9 @@ public class ViewNavigator {
             AppointmentController appointmentController,
             HospitalizationController hospitalizationController,
             TableDataController tableController,
-            ComboDataController comboController) {
+            ComboDataController comboController,
+            IAppointmentRepository apptRepo,
+            IHospitalizationRepository hospRepo) {
         this.authController = authController;
         this.patientController = patientController;
         this.doctorController = doctorController;
@@ -46,6 +52,8 @@ public class ViewNavigator {
         this.hospitalizationController = hospitalizationController;
         this.tableController = tableController;
         this.comboController = comboController;
+        this.apptRepo = apptRepo;
+        this.hospRepo = hospRepo;
     }
 
     public void showLogin() {
@@ -83,6 +91,7 @@ public class ViewNavigator {
     PatientView patientView = new PatientView(session, this,
             patientController, appointmentController, hospitalizationController,
             tableController, comboController, true);
+    apptRepo.subscribe(patientView);
     currentView = patientView;
     patientView.setVisible(true);
 }
@@ -104,6 +113,7 @@ public class ViewNavigator {
     PatientView patientView = new PatientView(session, this,
             patientController, appointmentController, hospitalizationController,
             tableController, comboController, false);
+    apptRepo.subscribe(patientView);
     currentView = patientView;
     patientView.setVisible(true);
 }
@@ -113,6 +123,8 @@ public class ViewNavigator {
         DoctorView doctorView = new DoctorView(session, this,
                 doctorController, appointmentController, hospitalizationController,
                 patientController, tableController, comboController, asAdmin);
+        apptRepo.subscribe(doctorView);
+        hospRepo.subscribe(doctorView);
         currentView = doctorView;
         doctorView.setVisible(true);
     }

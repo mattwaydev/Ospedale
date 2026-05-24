@@ -3,9 +3,9 @@
 Universidad del Norte — NRC: 2040
 
 ## Integrantes
-- Samuel Ramirez — Layer: Model
-- Mateo Carrascal — Layer: Controller
-- Sebastian Anaya — Layer: View / Navigation / Entry point
+- Samuel Ramirez Nuñez — Layer: Model
+- Mateo Carrascal Rodriguez — Layer: Controller
+- Sebastian Andres Anaya Ojeda — Layer: View / Navigation / Entry point
 
 ## Cómo correr
 Requiere Java 21+, Ant, NetBeans (o JDK + Ant standalone).

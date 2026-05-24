@@ -5,6 +5,10 @@
 package com.uninorte.ospedale.controller;
 import com.uninorte.ospedale.controller.response.Response;
 import com.uninorte.ospedale.controller.response.ResponseFactory;
+import com.uninorte.ospedale.controller.strategy.AppointmentRequestStrategy;
+import com.uninorte.ospedale.controller.strategy.DoctorResolveResult;
+import com.uninorte.ospedale.controller.strategy.RequestByDoctorStrategy;
+import com.uninorte.ospedale.controller.strategy.RequestBySpecialtyStrategy;
 import com.uninorte.ospedale.controller.validator.AppointmentValidator;
 import com.uninorte.ospedale.model.repository.IAppointmentRepository;
 import com.uninorte.ospedale.model.repository.IDoctorRepository;
@@ -18,7 +22,6 @@ import com.uninorte.ospedale.model.enums.AppointmentStatus;
 import com.uninorte.ospedale.model.entity.Doctor;
 import com.uninorte.ospedale.model.entity.Patient;
 import com.uninorte.ospedale.model.entity.Prescription;
-import com.uninorte.ospedale.model.enums.Specialty;
 import com.uninorte.ospedale.model.dto.AppointmentRequestDTO;
 import com.uninorte.ospedale.model.dto.CompleteAppointmentDTO;
 import com.uninorte.ospedale.model.dto.PrescriptionDTO;
@@ -73,38 +76,22 @@ public class AppointmentController {
         LocalDateTime slot = LocalDateTime.of(appointmentDate, appointmentTime);
 
         Patient patient = (Patient) patientFound.get();
-        Doctor doctor;
-        Specialty specialty;
 
-        if (byDoctor) {
-            long doctorId = Long.parseLong(specialtyOrDoctorId);
-            Optional<User> doctorFound = doctorRepository.findById(doctorId);
-            if (doctorFound.isEmpty())
-                return ResponseFactory.notFound("Médico no encontrado");
-            doctor = (Doctor) doctorFound.get();
-            specialty = doctor.getSpecialty();
-            if (!appointmentRepository.doctorIsAvailableAt(doctorId, slot))
-                return ResponseFactory.conflict("El médico no está disponible a esa hora");
-        } else {
-            try {
-                specialty = Specialty.valueOf(specialtyOrDoctorId.toUpperCase().replace(" & ", "_"));
-            } catch (IllegalArgumentException e) {
-                return ResponseFactory.badRequest("Especialidad inválida");
-            }
-            java.util.List<Doctor> doctors = doctorRepository.findBySpecialty(specialty);
-            doctor = null;
-            for (Doctor d : doctors) {
-                if (appointmentRepository.doctorIsAvailableAt(d.getId(), slot)) {
-                    doctor = d;
-                    break;
-                }
-            }
-            if (doctor == null)
-                return ResponseFactory.conflict("No hay médicos disponibles para esa especialidad a esa hora");
-        }
+        // O — Open/Closed: la estrategia encapsula la selección de médico.
+        // Agregar RequestByUrgencyStrategy en el futuro no toca este método.
+        AppointmentRequestStrategy strategy = byDoctor
+                ? new RequestByDoctorStrategy()
+                : new RequestBySpecialtyStrategy();
+
+        DoctorResolveResult result = strategy.resolve(specialtyOrDoctorId, slot,
+                appointmentRepository, doctorRepository);
+
+        if (result.isError()) return result.getError();
+
+        Doctor doctor = result.getDoctor();
 
         String id = appointmentRepository.nextIdForPatient(patientId);
-        Appointment appointment = new Appointment(id, patient, doctor, specialty, slot, reason, type);
+        Appointment appointment = new Appointment(id, patient, doctor, result.getSpecialty(), slot, reason, type);
         appointmentRepository.save(appointment);
         patient.addAppointment(appointment);
         doctor.addAppointment(appointment);
@@ -121,6 +108,7 @@ public class AppointmentController {
         if (appointment.getDoctor().getId() != doctorId)
             return ResponseFactory.unauthorized("El médico no está asignado a esta cita");
         appointment.setStatus(AppointmentStatus.PENDING);
+        appointmentRepository.save(appointment);
         return ResponseFactory.ok("Cita aceptada", null);
     }
 
@@ -148,6 +136,7 @@ public class AppointmentController {
         if (observations != null) appointment.setObservations(observations);
         if (treatment != null) appointment.setRecommendedTreatment(treatment);
         if (followUp != null) appointment.setFollowUp(followUp);
+        appointmentRepository.save(appointment);
         return ResponseFactory.ok("Cita completada", null);
     }
 
@@ -161,6 +150,7 @@ public class AppointmentController {
         if (appointment.getPatient().getId() != patientId)
             return ResponseFactory.unauthorized("El paciente no está asignado a esta cita");
         appointment.setStatus(AppointmentStatus.CANCELED);
+        appointmentRepository.save(appointment);
         return ResponseFactory.ok("Cita cancelada", null);
     }
 
@@ -185,6 +175,7 @@ public class AppointmentController {
 
         appointment.setDatetime(newSlot);
         appointment.setReason(appointment.getReason() + " | Reagendada: " + reason);
+        appointmentRepository.save(appointment);
         return ResponseFactory.ok("Cita reagendada", null);
     }
 

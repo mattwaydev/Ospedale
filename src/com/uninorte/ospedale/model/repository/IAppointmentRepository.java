@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.Optional;
 import com.uninorte.ospedale.model.entity.Appointment;
 import com.uninorte.ospedale.model.enums.AppointmentStatus;
+import com.uninorte.ospedale.model.observer.EntityEvent;
+import com.uninorte.ospedale.model.observer.Observable;
 /**
  *
  * @author Samuel Ramirez
  */
-public interface IAppointmentRepository {
+public interface IAppointmentRepository extends Observable<EntityEvent> {
     Optional<Appointment> findById(String id);
     List<Appointment> findByPatientId(long pid);
     List<Appointment> findByDoctorId(long did);

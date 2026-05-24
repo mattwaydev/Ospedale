@@ -21,6 +21,8 @@ import com.uninorte.ospedale.model.dto.PatientFormDTO;
 import com.uninorte.ospedale.model.dto.PrescriptionDTO;
 import com.uninorte.ospedale.model.dto.PrescriptionRowDTO;
 import com.uninorte.ospedale.model.dto.UserSessionDTO;
+import com.uninorte.ospedale.model.observer.EntityEvent;
+import com.uninorte.ospedale.model.observer.Observer;
 import com.uninorte.ospedale.view.navigation.ViewNavigator;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Matt
  * @author Sebastián
  */
-public class DoctorView extends javax.swing.JFrame {
+public class DoctorView extends javax.swing.JFrame implements Observer<EntityEvent> {
 
     private int x, y;
     private final UserSessionDTO session;
@@ -268,6 +270,7 @@ public class DoctorView extends javax.swing.JFrame {
         scrCompleteFollowUp = new javax.swing.JScrollPane();
         txtCompleteFollowUp = new javax.swing.JTextArea();
         sepHospSection = new javax.swing.JSeparator();
+        btnApproveHospitalization = new javax.swing.JButton();
         btnCancelHospitalization = new javax.swing.JButton();
         cmbCancelHospitalizationId = new javax.swing.JComboBox<>();
         scrPrescriptions = new javax.swing.JScrollPane();
@@ -786,6 +789,14 @@ public class DoctorView extends javax.swing.JFrame {
 
         sepHospSection.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        btnApproveHospitalization.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        btnApproveHospitalization.setText("Approve");
+        btnApproveHospitalization.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApproveHospitalizationActionPerformed(evt);
+            }
+        });
+
         btnCancelHospitalization.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         btnCancelHospitalization.setText("Cancel");
         btnCancelHospitalization.addActionListener(new java.awt.event.ActionListener() {
@@ -920,6 +931,8 @@ public class DoctorView extends javax.swing.JFrame {
                         .addGap(45, 45, 45)
                         .addGroup(pnlRequestsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(pnlRequestsTabLayout.createSequentialGroup()
+                                .addComponent(btnApproveHospitalization)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCancelHospitalization)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnSendToHospitalization))
@@ -1041,6 +1054,7 @@ public class DoctorView extends javax.swing.JFrame {
                 .addComponent(scrHospObservations, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(pnlRequestsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnApproveHospitalization)
                     .addComponent(btnSendToHospitalization)
                     .addComponent(btnCancelHospitalization))
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -1443,6 +1457,29 @@ public class DoctorView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCancelHospitalizationActionPerformed
 
+    private void btnApproveHospitalizationActionPerformed(java.awt.event.ActionEvent evt) {
+        Object sel = cmbCancelHospitalizationId.getSelectedItem();
+        if (sel == null || "Select one".equals(sel.toString())) {
+            JOptionPane.showMessageDialog(this, "Seleccione una hospitalización.");
+            return;
+        }
+        Response<Object> resp = hc.approve(sel.toString(), session.id());
+        JOptionPane.showMessageDialog(this, resp.getMessage());
+        if (resp.getCode() == 200) {
+            populateCombosFromResponse(cmbCancelHospitalizationId, cc.getHospitalizationIdsByStatus("REQUESTED"));
+            refreshHospitalizationsTable();
+        }
+    }
+
+    @Override
+    public void onNotify(EntityEvent event) {
+        if (!isDisplayable()) return;
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            refreshAppointmentsTable();
+            refreshHospitalizationsTable();
+        });
+    }
+
     private void btnAddMedicationRowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMedicationRowActionPerformed
         JOptionPane.showMessageDialog(this,
                 "Función no disponible — agregue las prescripciones de a una usando el botón Prescribe.");
@@ -1451,6 +1488,7 @@ public class DoctorView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAcceptAppointment;
     private javax.swing.JButton btnAddMedicationRow;
+    private javax.swing.JButton btnApproveHospitalization;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCancelHospitalization;
     private javax.swing.JButton btnClose;
